@@ -69,7 +69,41 @@ header{position:relative;z-index:300;background:linear-gradient(95deg,#060f18 0%
 .menu-card.locked:hover{transform:none;box-shadow:0 3px 14px rgba(41,128,185,.1);border-color:var(--b6);}
 /* Badge selesai */
 .done-badge{display:inline-flex;align-items:center;gap:3px;background:linear-gradient(135deg,#27ae60,#2ecc71);border-radius:99px;padding:2px 7px;font-size:.5rem;font-weight:800;color:#fff;margin-top:2px;align-self:flex-start;}
-/* ── REKAP HASIL EVALUASI ── */
+/* ── RIWAYAT EVALUASI ── */
+.menu-riwayat-btn{width:100%;max-width:280px;background:rgba(41,128,185,.15);border:1.5px solid var(--b4);border-radius:12px;padding:10px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform .18s,box-shadow .18s;margin-top:8px;}
+.menu-riwayat-btn:hover{transform:translateY(-2px);background:rgba(41,128,185,.25);}
+.menu-riwayat-icon{font-size:1.3rem;flex-shrink:0;}
+.menu-riwayat-text{text-align:left;}
+.menu-riwayat-title{font-family:'Lora',serif;font-size:.78rem;font-weight:600;color:var(--b1);display:block;}
+.menu-riwayat-desc{font-size:.55rem;color:var(--b2);display:block;margin-top:1px;}
+/* Halaman riwayat */
+#riwayatPage{display:none;padding:16px 16px 32px;min-height:calc(100vh - 54px);max-width:600px;margin:0 auto;}
+.riwayat-header{text-align:center;padding:16px 0 12px;}
+.riwayat-title{font-family:'Lora',serif;font-size:1.1rem;font-weight:600;color:var(--b0);margin-bottom:4px;}
+.riwayat-sub{font-size:.65rem;color:var(--b2);}
+.riwayat-empty{text-align:center;padding:40px 20px;color:var(--b2);font-size:.8rem;}
+.riwayat-card{background:var(--white);border-radius:12px;border:1.5px solid var(--b6);box-shadow:0 2px 10px rgba(41,128,185,.08);padding:12px 14px;margin-bottom:10px;}
+.riwayat-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.riwayat-attempt{font-size:.65rem;font-weight:800;color:var(--b2);letter-spacing:.3px;}
+.riwayat-tanggal{font-size:.6rem;color:#999;}
+.riwayat-nilai{font-size:1.3rem;font-weight:900;text-align:center;padding:6px 0;}
+.riwayat-nilai.lulus{color:#27ae60;}
+.riwayat-nilai.gagal{color:#e74c3c;}
+.riwayat-status{display:inline-block;border-radius:99px;padding:2px 10px;font-size:.58rem;font-weight:800;margin-left:8px;}
+.riwayat-status.lulus{background:#e8f8f0;color:#27ae60;}
+.riwayat-status.gagal{background:#fdf0ef;color:#e74c3c;}
+.riwayat-bab-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
+.riwayat-bab-item{background:var(--b7);border-radius:8px;padding:6px 8px;font-size:.58rem;}
+.riwayat-bab-nama{color:var(--b1);font-weight:700;margin-bottom:2px;}
+.riwayat-bab-skor{font-weight:800;}
+.riwayat-bab-skor.ok{color:#27ae60;}
+.riwayat-bab-skor.warn{color:#e67e22;}
+.riwayat-bab-skor.bad{color:#e74c3c;}
+.riwayat-hapus-btn{width:100%;margin-top:14px;background:#fdf0ef;border:1.5px solid #e74c3c;border-radius:10px;padding:8px;font-size:.65rem;font-weight:700;color:#e74c3c;cursor:pointer;transition:background .15s;}
+.riwayat-hapus-btn:hover{background:#fce8e6;}
+/* Tombol lanjut di score panel */
+.score-lanjut-btn{display:inline-block;background:var(--b3);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-size:.75rem;font-weight:800;cursor:pointer;margin-top:8px;transition:background .15s;}
+.score-lanjut-btn:hover{background:var(--b2);}
 .rekap-wrap{width:100%;margin:16px 0 0;display:flex;flex-direction:column;gap:8px;}
 .rekap-title{font-size:.75rem;font-weight:800;color:var(--b5);letter-spacing:.5px;margin-bottom:2px;text-align:center;}
 .rekap-table{width:100%;border-collapse:collapse;font-size:.72rem;}
@@ -364,6 +398,23 @@ footer{position:relative;z-index:1;text-align:center;padding:8px;font-size:.6rem
       <span class="menu-quiz-desc">20 soal · Kestabilan Atom, Ikatan Ion, Ikatan Kovalen &amp; Ikatan Logam</span>
     </span>
   </button>
+  <button class="menu-riwayat-btn" onclick="openRiwayat()">
+    <span class="menu-riwayat-icon">📈</span>
+    <span class="menu-riwayat-text">
+      <span class="menu-riwayat-title">Lihat Riwayat Evaluasi</span>
+      <span class="menu-riwayat-desc" id="riwayatMenuDesc">Belum ada riwayat evaluasi</span>
+    </span>
+  </button>
+</div>
+
+<!-- HALAMAN RIWAYAT -->
+<div id="riwayatPage">
+  <div class="riwayat-header">
+    <div class="riwayat-title">📈 Riwayat Evaluasi Akhir</div>
+    <div class="riwayat-sub">Semua hasil evaluasi tersimpan di perangkat Anda</div>
+  </div>
+  <div id="riwayatList"></div>
+  <button class="riwayat-hapus-btn" onclick="hapusRiwayat()">🗑️ Hapus Semua Riwayat</button>
 </div>
 
 <!-- MODAL CARA MENGGUNAKAN -->
@@ -863,12 +914,13 @@ function showView(v){
   document.getElementById('menuUtama').style.display=v==='menu'?'flex':'none';
   document.getElementById('flipbookPage').style.display=v==='flipbook'?'flex':'none';
   document.getElementById('quizPage').style.display=v==='quiz'?'block':'none';
+  document.getElementById('riwayatPage').style.display=v==='riwayat'?'block':'none';
   document.getElementById('backBtn').style.display=v!=='menu'?'inline-block':'none';
   document.getElementById('pageLabel').style.display=v==='flipbook'?'inline-block':'none';
   document.getElementById('chapterLabel').style.display=v==='flipbook'?'inline-block':'none';
-  document.getElementById('hdSub').textContent=v==='menu'?'Pilih Sub Bab untuk mulai belajar':v==='quiz'?'Latihan Soal':'Sub Bab '+(curSubBab+1);
+  document.getElementById('hdSub').textContent=v==='menu'?'Pilih Sub Bab untuk mulai belajar':v==='quiz'?'Evaluasi Akhir':v==='riwayat'?'Riwayat Evaluasi':'Sub Bab '+(curSubBab+1);
 }
-function goToMenu(){showView('menu');updateMenuProgress();}
+function goToMenu(){showView('menu');updateMenuProgress();updateRiwayatMenuDesc();}
 
 /* OPEN FLIPBOOK */
 function openFlipbook(subIdx){
@@ -903,6 +955,9 @@ function openFlipbook(subIdx){
 function openQuiz(){
   showView('quiz');
   if(!quiz.built){buildQuizPanel();quiz.built=true;}
+  // Restore state dari localStorage jika ada
+  const saved=loadQuizState();
+  if(saved) restoreQuizToDom(saved);
 }
 function buildQuizPanel(){
   const container=document.getElementById('quizPanels');
@@ -977,16 +1032,19 @@ function checkAns(idx){
     }
   }
   updateQProg();
+  saveQuizState(); // ← simpan setiap kali jawaban diperiksa
 }
+
 function nextQ(idx){
   const nxt=idx+1;
   if(nxt>=quiz.data.length){showScore();return;}
   document.getElementById(`qc_${idx}`).classList.remove('active');
   document.getElementById(`qc_${nxt}`).classList.add('active');
-  // scroll ke atas panel quiz
   const qp=document.getElementById('quizPage');if(qp) qp.scrollTop=0;
   window.scrollTo({top:0,behavior:'smooth'});
-  quiz.cur=nxt;updateQProg();
+  quiz.cur=nxt;
+  updateQProg();
+  saveQuizState(); // ← simpan posisi soal saat ini
 }
 function updateQProg(){
   const done=quiz.done.filter(Boolean).length;
@@ -1002,6 +1060,160 @@ const BAB_INFO=[
   {nama:'Bab 4 – Ikatan Logam',           soalIdx:[17,18,19],       subBab:3},
 ];
 
+/* ═══════════════════════════════════════════
+   QUIZ PERSISTENCE — simpan state soal ke localStorage
+   ═══════════════════════════════════════════ */
+const QUIZ_STATE_KEY='ikimia_quiz_state_v1';
+const RIWAYAT_KEY='ikimia_riwayat_v1';
+
+function saveQuizState(){
+  try{
+    const state={
+      att:quiz.att, done:quiz.done, ok:quiz.ok,
+      sel:quiz.sel, cur:quiz.cur, finished:quiz.ok.filter(Boolean).length===TOTAL_SOAL||quiz.done.every(Boolean)
+    };
+    localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
+  }catch(e){}
+}
+
+function loadQuizState(){
+  try{
+    const raw=localStorage.getItem(QUIZ_STATE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return null;
+}
+
+function clearQuizState(){
+  try{ localStorage.removeItem(QUIZ_STATE_KEY); }catch(e){}
+}
+
+/* RIWAYAT EVALUASI */
+function loadRiwayat(){
+  try{
+    const raw=localStorage.getItem(RIWAYAT_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return[];
+}
+
+function saveRiwayatEntry(entry){
+  try{
+    const list=loadRiwayat();
+    list.push(entry);
+    localStorage.setItem(RIWAYAT_KEY, JSON.stringify(list));
+  }catch(e){}
+}
+
+function hapusRiwayat(){
+  if(!confirm('Hapus semua riwayat evaluasi? Tindakan ini tidak dapat dibatalkan.')) return;
+  try{ localStorage.removeItem(RIWAYAT_KEY); }catch(e){}
+  renderRiwayat();
+  updateRiwayatMenuDesc();
+  showToast('🗑️ Riwayat evaluasi dihapus.');
+}
+
+function updateRiwayatMenuDesc(){
+  const list=loadRiwayat();
+  const el=document.getElementById('riwayatMenuDesc');
+  if(!el) return;
+  if(list.length===0){ el.textContent='Belum ada riwayat evaluasi'; return; }
+  const last=list[list.length-1];
+  el.textContent=`${list.length}x evaluasi · Terakhir: ${last.pct}% (${last.lulus?'Lulus':'Belum lulus'})`;
+}
+
+function openRiwayat(){
+  renderRiwayat();
+  showView('riwayat');
+}
+
+function renderRiwayat(){
+  const list=loadRiwayat();
+  const container=document.getElementById('riwayatList');
+  if(!container) return;
+  if(list.length===0){
+    container.innerHTML='<div class="riwayat-empty">📭 Belum ada riwayat evaluasi.<br>Selesaikan Evaluasi Akhir untuk melihat hasil di sini.</div>';
+    return;
+  }
+  // Tampilkan dari terbaru ke terlama
+  container.innerHTML=[...list].reverse().map((item,i)=>{
+    const no=list.length-i;
+    const cls=item.lulus?'lulus':'gagal';
+    const babHTML=item.bab.map(b=>{
+      const bc=b.pct>=80?'ok':b.pct>=60?'warn':'bad';
+      const ikon=b.pct>=80?'✅':b.pct>=60?'⚠️':'❌';
+      return`<div class="riwayat-bab-item">
+        <div class="riwayat-bab-nama">${b.nama}</div>
+        <div class="riwayat-bab-skor ${bc}">${ikon} ${b.benar}/${b.total} (${b.pct}%)</div>
+      </div>`;
+    }).join('');
+    return`<div class="riwayat-card">
+      <div class="riwayat-card-header">
+        <span class="riwayat-attempt">Evaluasi ke-${no}</span>
+        <span class="riwayat-tanggal">${item.tanggal}</span>
+      </div>
+      <div class="riwayat-nilai ${cls}">
+        ${item.skor}/${item.total} (${item.pct}%)
+        <span class="riwayat-status ${cls}">${item.lulus?'✅ LULUS':'❌ Belum Lulus'}</span>
+      </div>
+      <div class="riwayat-bab-grid">${babHTML}</div>
+    </div>`;
+  }).join('');
+}
+
+/* Restore quiz state dari localStorage ke DOM */
+function restoreQuizToDom(state){
+  state.att.forEach((att,idx)=>{
+    quiz.att[idx]=att;
+    quiz.done[idx]=state.done[idx];
+    quiz.ok[idx]=state.ok[idx];
+    quiz.sel[idx]=state.sel[idx];
+    const item=quiz.data[idx];
+
+    // Restore dots
+    for(let d=0;d<3;d++){
+      const dot=document.getElementById(`qdot_${idx}_${d}`);
+      if(dot&&d<att) dot.style.background=state.ok[idx]?'#28a745':'#dc3545';
+    }
+
+    if(state.done[idx]){
+      // Tandai jawaban benar
+      item.opts.forEach((_,oi)=>{
+        const l=document.getElementById(`opt_${idx}_${oi}`);
+        if(l){
+          l.querySelector('input').disabled=true;
+          if(oi===item.ans) l.classList.add('correct');
+        }
+      });
+      const fb=document.getElementById(`fb_${idx}`);
+      const bc=document.getElementById(`bc_${idx}`);
+      const bn=document.getElementById(`bn_${idx}`);
+      if(bc) bc.style.display='none';
+      if(bn) bn.style.display='inline-block';
+      if(fb){
+        if(state.ok[idx]){
+          fb.className='fb-box fb-correct show';
+          fb.innerHTML=`<strong>✅ Jawaban Benar!</strong> ${item.ok}`;
+        } else {
+          fb.className='fb-box fb-exhausted show';
+          fb.innerHTML=`<strong>❌ Jawaban Salah.</strong> ${item.fb[2]}<br><span style="font-weight:800;color:#1a6496;display:inline-block;margin-top:2px;">Jawaban benar: ${item.opts[item.ans]}</span>`;
+        }
+      }
+    }
+  });
+
+  // Pindah ke soal terakhir yang aktif
+  quiz.cur=state.cur;
+  quiz.data.forEach((_,idx)=>{
+    const c=document.getElementById(`qc_${idx}`);
+    if(c) c.classList.toggle('active',idx===state.cur);
+  });
+  updateQProg();
+
+  // Jika sudah selesai semua, tampilkan skor langsung
+  if(state.finished) showScore();
+}
+
 function showScore(){
   const score=quiz.ok.filter(Boolean).length;
   const total=TOTAL_SOAL;
@@ -1014,78 +1226,50 @@ function showScore(){
   const snEl=document.getElementById('scoreNumAll');
   snEl.textContent=`${score} / ${total}  (${pct}%)`;
   snEl.style.color=lulus?'#2ecc71':'#e74c3c';
+  const qpb=document.getElementById('qpbAll');if(qpb) qpb.style.width='100%';
 
   // Hitung rekap per bab
   const rekapData=BAB_INFO.map(bab=>{
-    const total=bab.soalIdx.length;
+    const tot=bab.soalIdx.length;
     const benar=bab.soalIdx.filter(i=>quiz.ok[i]).length;
-    return{nama:bab.nama, benar, total, subBab:bab.subBab};
+    const pctB=Math.round(benar/tot*100);
+    return{nama:bab.nama,benar,total:tot,pct:pctB,subBab:bab.subBab};
   });
+  const perluUlang=rekapData.filter(b=>b.pct<80);
 
-  // Bab yang perlu dipelajari ulang (< 80% atau < total)
-  const perluUlang=rekapData.filter(b=>(b.benar/b.total)<0.8);
+  // Simpan ke riwayat & hapus state aktif
+  const now=new Date();
+  const tanggal=now.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})+' '+now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  saveRiwayatEntry({skor:score,total,pct,lulus,tanggal,bab:rekapData});
+  updateRiwayatMenuDesc();
+  clearQuizState();
 
   // Bangun HTML rekap
-  let rekapHTML=`
-    <div class="rekap-wrap">
-      <div class="rekap-title">📊 Rekap Penguasaan Materi per Bab</div>
-      <table class="rekap-table">
-        <thead><tr><th>Materi</th><th>Hasil</th></tr></thead>
-        <tbody>`;
-
+  let rekapHTML=`<div class="rekap-wrap"><div class="rekap-title">📊 Rekap Penguasaan Materi per Bab</div><table class="rekap-table"><thead><tr><th>Materi</th><th>Hasil</th></tr></thead><tbody>`;
   rekapData.forEach(b=>{
-    const pctB=Math.round(b.benar/b.total*100);
-    const cls=pctB>=80?'ok':pctB>=60?'warn':'bad';
-    const ikon=pctB>=80?'✅':pctB>=60?'⚠️':'❌';
-    rekapHTML+=`<tr>
-      <td>${b.nama}</td>
-      <td>
-        <span class="rekap-score ${cls}">${ikon} ${b.benar}/${b.total}</span>
-        <span class="rekap-bar"><span class="rekap-bar-fill ${cls}" style="width:${pctB}%"></span></span>
-      </td>
-    </tr>`;
+    const cls=b.pct>=80?'ok':b.pct>=60?'warn':'bad';
+    const ikon=b.pct>=80?'✅':b.pct>=60?'⚠️':'❌';
+    rekapHTML+=`<tr><td>${b.nama}</td><td><span class="rekap-score ${cls}">${ikon} ${b.benar}/${b.total}</span><span class="rekap-bar"><span class="rekap-bar-fill ${cls}" style="width:${b.pct}%"></span></span></td></tr>`;
   });
-
   rekapHTML+=`</tbody></table>`;
-
-  // Rekomendasi
   if(perluUlang.length>0){
     const daftarBab=perluUlang.map(b=>`<b>${b.nama}</b>`).join(', ');
-    rekapHTML+=`<div class="rekomendasi-box">
-      <div class="rekomendasi-title">💡 Rekomendasi Belajar</div>
-      <div class="rekomendasi-list">Materi yang disarankan untuk dipelajari kembali:<br>${daftarBab},<br>karena masih terdapat beberapa konsep yang belum dikuasai.</div>
-    </div>`;
+    rekapHTML+=`<div class="rekomendasi-box"><div class="rekomendasi-title">💡 Rekomendasi Belajar</div><div class="rekomendasi-list">Materi yang disarankan untuk dipelajari kembali:<br>${daftarBab},<br>karena masih terdapat beberapa konsep yang belum dikuasai.</div></div>`;
   } else {
-    rekapHTML+=`<div class="rekomendasi-box" style="background:rgba(46,204,113,.13);border-color:rgba(46,204,113,.3);">
-      <div class="rekomendasi-title" style="color:#2ecc71;">🎉 Penguasaan Materi Sempurna!</div>
-      <div class="rekomendasi-list" style="color:#a9f0c8;">Anda telah menguasai semua materi dengan baik. Pertahankan semangat belajar Anda!</div>
-    </div>`;
+    rekapHTML+=`<div class="rekomendasi-box" style="background:rgba(46,204,113,.13);border-color:rgba(46,204,113,.3);"><div class="rekomendasi-title" style="color:#2ecc71;">🎉 Penguasaan Materi Sempurna!</div><div class="rekomendasi-list" style="color:#a9f0c8;">Anda telah menguasai semua materi dengan baik!</div></div>`;
   }
-  rekapHTML+=`</div>`;
+  rekapHTML+=`<button class="score-lanjut-btn" onclick="openRiwayat()" style="width:100%;margin-top:10px;">📈 Lihat Semua Riwayat Evaluasi</button></div>`;
 
-  // Pesan lulus/tidak lulus
   const msgEl=document.getElementById('scoreMsgAll');
   if(lulus){
-    msgEl.innerHTML=`<div class="hasil-lulus">
-      <span class="hasil-emoji">🎓</span>
-      <span class="hasil-teks">Selamat! Anda telah menyelesaikan pembelajaran.</span>
-      <span class="hasil-sub">Nilai Anda ${pct}% ≥ 80 — Anda dinyatakan <b>LULUS</b> evaluasi akhir Ikatan Kimia.</span>
-    </div>${rekapHTML}`;
+    msgEl.innerHTML=`<div class="hasil-lulus"><span class="hasil-emoji">🎓</span><span class="hasil-teks">Selamat! Anda telah menyelesaikan pembelajaran.</span><span class="hasil-sub">Nilai Anda ${pct}% ≥ 80 — Anda dinyatakan <b>LULUS</b> evaluasi akhir Ikatan Kimia.</span></div>${rekapHTML}`;
   } else {
     const saranBab=perluUlang.map(b=>`Sub Bab ${b.subBab+1}`).join(', ');
-    msgEl.innerHTML=`<div class="hasil-gagal">
-      <span class="hasil-emoji">📚</span>
-      <span class="hasil-teks">Belum mencapai nilai minimum.</span>
-      <span class="hasil-sub">Nilai Anda ${pct}% &lt; 80 — Silakan pelajari kembali ${saranBab} dan ulangi evaluasi.</span>
-    </div>${rekapHTML}`;
+    msgEl.innerHTML=`<div class="hasil-gagal"><span class="hasil-emoji">📚</span><span class="hasil-teks">Belum mencapai nilai minimum.</span><span class="hasil-sub">Nilai Anda ${pct}% &lt; 80 — Silakan pelajari kembali ${saranBab} dan ulangi evaluasi.</span></div>${rekapHTML}`;
   }
 
   const rst=document.getElementById('btnRstAll');
-  if(rst){
-    rst.textContent=lulus?'🔄 Kerjakan Ulang':'🔄 Ulangi Evaluasi';
-    rst.addEventListener('click',resetQuiz,{once:true});
-  }
-  const qpb=document.getElementById('qpbAll');if(qpb) qpb.style.width='100%';
+  if(rst){rst.textContent=lulus?'🔄 Kerjakan Ulang':'🔄 Ulangi Evaluasi';rst.addEventListener('click',resetQuiz,{once:true});}
   showToast(lulus?'🎓 Evaluasi selesai — Anda LULUS!':'📚 Evaluasi selesai — Pelajari ulang ya!');
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1100,11 +1284,11 @@ function resetQuiz(){
     const bc=document.getElementById(`bc_${idx}`);if(bc) bc.style.display='inline-block';
     const bn=document.getElementById(`bn_${idx}`);if(bn) bn.style.display='none';
   });
-  // Bersihkan rekap dan pesan hasil
   const msgEl=document.getElementById('scoreMsgAll');if(msgEl) msgEl.innerHTML='';
   const snEl=document.getElementById('scoreNumAll');if(snEl){snEl.textContent=`0/${TOTAL_SOAL}`;snEl.style.color='#aed6f1';}
   const sp=document.getElementById('scorePanAll');if(sp) sp.classList.remove('show');
   const rst=document.getElementById('btnRstAll');if(rst) rst.addEventListener('click',resetQuiz,{once:true});
+  clearQuizState(); // hapus state lama agar mulai dari awal
   updateQProg();window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1508,6 +1692,7 @@ document.addEventListener('keydown',e=>{
 
 showView('menu');
 updateMenuProgress();
+updateRiwayatMenuDesc();
 </script>
 </body>
 </html>
