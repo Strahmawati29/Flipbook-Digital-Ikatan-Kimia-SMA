@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Flipbook Ikatan Kimia SMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,500;0,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,500;0,600&display=swap" rel="stylesheet"></noscript>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+/* Deteksi iOS untuk optimasi khusus */
+:root{--b0:#08202f;--b1:#0f3d5c;--b2:#1a6496;--b3:#2980b9;--b4:#5dade2;--b5:#aed6f1;--b6:#d6eaf8;--b7:#eaf4fb;--white:#ffffff;--paper:#f8fcff;--flip-dur:0.45s;--flip-ease:cubic-bezier(.645,.045,.355,1);}
+html,body{height:100%;font-family:'Nunito',sans-serif;background:linear-gradient(150deg,#bcd9ee 0%,#dff0fb 45%,#b5d4eb 100%);overflow-x:hidden;-webkit-user-select:none;user-select:none;}
+/* Hapus radial-gradient berat di body::before — berat di iOS GPU */
+body::before{content:none;}
+/* HEADER */
+header{position:relative;z-index:300;background:linear-gradient(95deg,#060f18 0%,var(--b1) 55%,var(--b2) 100%);box-shadow:0 3px 24px rgba(8,32,47,.5);display:flex;align-items:center;justify-content:space-between;padding:10px 24px;gap:10px;min-height:54px;flex-wrap:wrap;}
+.hd-brand-wrap{display:flex;flex-direction:column;flex:1;min-width:160px;}
+.hd-brand{font-family:'Lora',serif;font-size:1.05rem;font-weight:600;color:var(--white);letter-spacing:.3px;line-height:1.2;}
+.hd-sub{font-size:.6rem;color:var(--b5);letter-spacing:.4px;margin-top:1px;}
+.hd-info{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.hd-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:4px 14px;font-size:.68rem;color:var(--b5);font-weight:700;letter-spacing:.4px;white-space:nowrap;}
+.hd-back-btn{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 16px;color:var(--white);font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;transition:background .2s;white-space:nowrap;display:none;}
+.hd-back-btn:hover{background:rgba(255,255,255,.22);}
+.timer-wrap{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;flex-shrink:0;}
+.timer-icon{font-size:.9rem;animation:blink 1.4s ease-in-out infinite alternate;}
+@keyframes blink{from{opacity:.4}to{opacity:1}}
+.timer-label{font-size:.55rem;color:var(--b5);display:block;line-height:1;}
+.timer-val{font-size:.9rem;font-weight:900;color:var(--b5);letter-spacing:2px;line-height:1;}
+/* ── MENU UTAMA ── */
+#menuUtama{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 54px);padding:18px 20px 24px;gap:0;}
+.menu-hero{text-align:center;margin-bottom:14px;}
+.menu-hero-title{font-family:'Lora',serif;font-size:1.4rem;font-weight:600;color:var(--b0);line-height:1.3;margin-bottom:4px;}
+.menu-hero-sub{font-size:.7rem;color:var(--b2);font-weight:600;letter-spacing:.3px;}
+.menu-section-label{font-size:.63rem;font-weight:800;color:var(--b2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;text-align:center;}
+/* HP default: grid 2x2 */
+.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;width:100%;max-width:280px;margin-bottom:16px;}
+.menu-card{background:var(--white);border-radius:12px;border:2px solid var(--b6);box-shadow:0 3px 14px rgba(41,128,185,.1);overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;display:flex;flex-direction:column;}
+.menu-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(41,128,185,.22);border-color:var(--b3);}
+.menu-card-thumb{width:100%;aspect-ratio:1/1.4142;overflow:hidden;background:linear-gradient(135deg,var(--b6),var(--b7));flex-shrink:0;position:relative;}
+.menu-card-thumb img{width:100%;height:100%;object-fit:fill;display:block;transition:transform .3s;}
+.menu-card:hover .menu-card-thumb img{transform:scale(1.03);}
+.menu-card-thumb-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;}
+.menu-card-body{padding:6px 8px 8px;display:flex;flex-direction:column;gap:2px;}
+.menu-card-title{font-family:'Lora',serif;font-size:.75rem;font-weight:600;color:var(--b0);line-height:1.3;}
+.menu-card-desc{font-size:.55rem;color:var(--b2);line-height:1.4;}
+.menu-divider{width:100%;max-width:280px;border:none;border-top:2px dashed var(--b6);margin-bottom:14px;}
+.menu-quiz-btn{width:100%;max-width:280px;background:linear-gradient(135deg,var(--b1),var(--b0));border:none;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:0 4px 16px rgba(8,32,47,.18);}
+.menu-quiz-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(8,32,47,.28);}
+.menu-quiz-icon{font-size:1.4rem;flex-shrink:0;}
+.menu-quiz-text{text-align:left;}
+.menu-quiz-title{font-family:'Lora',serif;font-size:.82rem;font-weight:600;color:var(--white);display:block;}
+.menu-quiz-desc{font-size:.56rem;color:var(--b5);display:block;margin-top:2px;}
+/* ── PROGRESS & LOCK SYSTEM ── */
+.menu-card-progress{padding:4px 8px 6px;display:flex;flex-direction:column;gap:3px;}
+.prog-bar-wrap{width:100%;height:5px;background:var(--b6);border-radius:99px;overflow:hidden;}
+.prog-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--b3),var(--b4));transition:width .4s ease;}
+.prog-label{font-size:.5rem;color:var(--b2);font-weight:700;display:flex;justify-content:space-between;}
+/* LOCK overlay di thumbnail */
+.menu-card-lock{position:absolute;inset:0;background:rgba(8,32,47,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:10;}
+.menu-card-lock .lock-icon{font-size:1.6rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));}
+.menu-card-lock .lock-txt{font-size:.5rem;color:#fff;font-weight:800;text-align:center;padding:0 6px;line-height:1.3;opacity:.9;}
+/* Card terkunci: opacity & cursor */
+.menu-card.locked{cursor:not-allowed;opacity:.85;}
+.menu-card.locked:hover{transform:none;box-shadow:0 3px 14px rgba(41,128,185,.1);border-color:var(--b6);}
+/* Badge selesai */
+.done-badge{display:inline-flex;align-items:center;gap:3px;background:linear-gradient(135deg,#27ae60,#2ecc71);border-radius:99px;padding:2px 7px;font-size:.5rem;font-weight:800;color:#fff;margin-top:2px;align-self:flex-start;}
+/* ── REKAP HASIL EVALUASI ── */
+.rekap-wrap{width:100%;margin:16px 0 0;display:flex;flex-direction:column;gap:8px;}
+.rekap-title{font-size:.75rem;font-weight:800;color:var(--b5);letter-spacing:.5px;margin-bottom:2px;text-align:center;}
+.rekap-table{width:100%;border-collapse:collapse;font-size:.72rem;}
+.rekap-table th{background:rgba(255,255,255,.1);color:var(--b5);font-weight:700;padding:7px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,.12);}
+.rekap-table td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);color:#e8f4fd;vertical-align:middle;}
+.rekap-table tr:last-child td{border-bottom:none;}
+.rekap-score{font-weight:800;white-space:nowrap;}
+.rekap-score.ok{color:#2ecc71;}
+.rekap-score.warn{color:#f39c12;}
+.rekap-score.bad{color:#e74c3c;}
+.rekap-bar{display:inline-block;width:52px;height:6px;background:rgba(255,255,255,.12);border-radius:99px;vertical-align:middle;margin-left:6px;overflow:hidden;}
+.rekap-bar-fill{height:100%;border-radius:99px;transition:width .6s ease;}
+.rekap-bar-fill.ok{background:#2ecc71;}
+.rekap-bar-fill.warn{background:#f39c12;}
+.rekap-bar-fill.bad{background:#e74c3c;}
+.rekomendasi-box{background:rgba(243,156,18,.13);border:1px solid rgba(243,156,18,.3);border-radius:10px;padding:10px 14px;margin-top:6px;}
+.rekomendasi-title{font-size:.68rem;font-weight:800;color:#f39c12;margin-bottom:4px;}
+.rekomendasi-list{font-size:.65rem;color:#e8d5a3;line-height:1.6;}
+.hasil-lulus{background:linear-gradient(135deg,rgba(39,174,96,.2),rgba(46,204,113,.1));border:1px solid rgba(46,204,113,.3);border-radius:12px;padding:14px;text-align:center;margin-bottom:8px;}
+.hasil-gagal{background:linear-gradient(135deg,rgba(231,76,60,.2),rgba(243,156,18,.1));border:1px solid rgba(231,76,60,.3);border-radius:12px;padding:14px;text-align:center;margin-bottom:8px;}
+.hasil-emoji{font-size:2rem;display:block;margin-bottom:4px;}
+.hasil-teks{font-size:.8rem;font-weight:800;color:#fff;display:block;margin-bottom:2px;}
+.hasil-sub{font-size:.62rem;color:rgba(255,255,255,.75);line-height:1.4;}
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(15,61,92,.93);color:#fff;font-size:.75rem;font-weight:700;padding:10px 22px;border-radius:30px;z-index:9999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+main{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 54px);padding:22px 72px 16px;gap:18px;}
+#scene{perspective:2800px;position:relative;display:flex;align-items:flex-start;justify-content:center;}
+/* LAPTOP: 4 kartu sejajar (≥900px) */
+@media(min-width:900px){
+  #menuUtama{padding:28px 48px 32px;}
+  .menu-hero{margin-bottom:18px;}
+  .menu-hero-title{font-size:1.9rem;}
+  .menu-hero-sub{font-size:.82rem;}
+  .menu-section-label{font-size:.72rem;margin-bottom:14px;}
+  .menu-grid{grid-template-columns:repeat(4,1fr);max-width:820px;gap:18px;margin-bottom:22px;}
+  .menu-card-body{padding:9px 11px 11px;}
+  .menu-card-title{font-size:.85rem;}
+  .menu-card-desc{font-size:.64rem;}
+  .menu-divider{max-width:820px;margin-bottom:20px;}
+  .menu-quiz-btn{max-width:820px;padding:16px 24px;border-radius:14px;gap:16px;}
+  .menu-quiz-icon{font-size:1.8rem;}
+  .menu-quiz-title{font-size:1rem;}
+  .menu-quiz-desc{font-size:.68rem;}
+  .menu-cara-btn{font-size:.75rem;padding:8px 26px;margin-top:14px;}
+}
+.book-wrap{position:relative;display:flex;align-items:stretch;box-shadow:0 12px 40px rgba(8,32,47,.4);}
+.bside{position:relative;background:var(--paper);overflow:hidden;flex-shrink:0;}
+.bside-left{border-radius:3px 0 0 3px;box-shadow:inset -8px 0 20px rgba(0,0,0,.07);}
+.bside-right{border-radius:0 3px 3px 0;box-shadow:inset 8px 0 20px rgba(0,0,0,.07);}
+.spine{flex-shrink:0;position:relative;z-index:10;width:7px;background:linear-gradient(to right,rgba(0,0,0,.25) 0%,rgba(255,255,255,.4) 35%,rgba(255,255,255,.15) 65%,rgba(0,0,0,.25) 100%);box-shadow:-2px 0 6px rgba(0,0,0,.15),2px 0 6px rgba(0,0,0,.15);}
+.pface{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper);opacity:0;transition:opacity .1s;overflow:hidden;}
+.pface.vis{opacity:1;}
+.pface img{width:100%;height:100%;object-fit:fill;display:block;}
+.pface-blank{width:100%;height:100%;background:linear-gradient(135deg,var(--b7),var(--b6));}
+/* FLIP CARD — gunakan opacity+translate bukan preserve-3d (lebih ringan di iOS) */
+.flip-card{position:absolute;top:0;z-index:200;pointer-events:none;overflow:hidden;background:var(--paper);}
+.fc-face{position:absolute;inset:0;overflow:hidden;background:var(--paper);}
+.fc-front{opacity:1;}
+.fc-back{opacity:0;}
+.fc-face img,.fc-face video{width:100%;height:100%;object-fit:fill;display:block;}
+.fc-curl{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;transition:opacity .1s;background:linear-gradient(to left,rgba(0,0,0,.13) 0%,transparent 60%);}
+.flip-card.going .fc-curl{opacity:1;}
+/* NAV */
+.nav-arr{position:absolute;width:44px;height:44px;border-radius:50%;border:none;background:rgba(41,128,185,.18);color:var(--b1);font-size:1.1rem;cursor:pointer;z-index:400;transition:background .2s,color .2s;display:flex;align-items:center;justify-content:center;}
+.nav-arr:hover:not(:disabled){background:var(--b3);color:var(--white);}
+.nav-arr:disabled{opacity:.28;cursor:not-allowed;}
+/* DRAG ZONE */
+.drag-zone{position:absolute;bottom:0;height:56px;width:100%;z-index:50;cursor:grab;}
+.drag-zone:active{cursor:grabbing;}
+.peel{position:absolute;bottom:0;width:28px;height:28px;background:linear-gradient(135deg,transparent 50%,rgba(41,128,185,.12) 50%);}
+.peel-r{right:0;border-radius:0 0 3px 0;}
+.peel-l{left:0;border-radius:0 0 0 3px;transform:scaleX(-1);}
+.dz-hint{position:absolute;bottom:4px;font-size:.5rem;color:rgba(41,128,185,.45);font-weight:700;pointer-events:none;}
+.dz-hint-r{right:34px;}
+.dz-hint-l{left:34px;}
+/* DOTS */
+.dots-row{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:480px;}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--b5);cursor:pointer;transition:background .2s,transform .15s;}
+.dot.on{background:var(--b1);transform:scale(1.35);}
+.dot:hover{background:var(--b3);}
+/* TOAST */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--b0);color:var(--white);padding:10px 22px;border-radius:25px;font-size:.74rem;font-weight:700;box-shadow:0 6px 32px rgba(0,0,0,.3);z-index:9999;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* QUIZ PAGE */
+#quizPage{
+  display:none; position:relative; z-index:1;
+  width:100%; max-width:560px; margin:0 auto;
+  padding:16px 14px 60px;
+  -webkit-overflow-scrolling:touch;
+}
+.qp-header{text-align:center;margin-bottom:14px;}
+.qp-title{font-family:'Lora',serif;font-size:1.15rem;font-weight:600;color:var(--b0);margin-bottom:3px;}
+.qp-sub{font-size:.68rem;color:var(--b2);font-weight:600;}
+/* QUIZ WIDGET */
+.qwrap{background:linear-gradient(155deg,#eef8ff,#d8ecf8);border-radius:14px;padding:14px;margin-bottom:12px;}
+.qwrap,.qwrap *{-webkit-user-select:text;user-select:text;pointer-events:auto;}
+.qwrap input[type="radio"]{-webkit-user-select:none;user-select:none;cursor:pointer;}
+.qwrap label,.qwrap button{cursor:pointer;}
+.qt-title{display:none;}
+.qt-sub{display:none;}
+.qt-sub{font-size:.58rem;color:var(--b2);text-align:center;margin-bottom:5px;font-weight:700;}
+.qpb-bg{background:var(--b6);border-radius:20px;height:6px;overflow:hidden;margin-bottom:3px;}
+.qpb{height:100%;width:0%;background:var(--b3);border-radius:20px;transition:width .4s;}
+.qpl{font-size:.6rem;color:var(--b2);text-align:right;margin-bottom:8px;}
+.att-row{display:flex;align-items:center;gap:4px;margin-bottom:6px;}
+.att-lbl{font-size:.58rem;color:var(--b1);font-weight:700;margin-right:2px;}
+.att-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--b4);background:var(--white);display:inline-block;transition:background .2s;}
+/* kartu soal */
+.q-card{background:var(--white);border-radius:10px;border:1.5px solid var(--b6);padding:14px 12px;margin-bottom:4px;box-shadow:0 2px 12px rgba(41,128,185,.07);display:none;flex-direction:column;}
+.q-card.active{display:flex;}
+/* nomor + teks soal */
+.q-num{font-size:.6rem;font-weight:800;color:var(--b3);letter-spacing:.5px;margin-bottom:4px;text-transform:uppercase;}
+.q-text{font-size:.8rem;color:var(--b0);font-weight:700;margin-bottom:10px;line-height:1.55;white-space:pre-line;}
+/* pilihan jawaban — ukuran tap-friendly untuk HP */
+.q-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:8px;}
+.opt-lbl{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:9px;
+  border:1.5px solid var(--b6);cursor:pointer;
+  font-size:.75rem;color:#2c3e50;
+  transition:all .2s;background:var(--b7);
+  line-height:1.4;
+  min-height:44px; /* tap target minimal 44px untuk HP */
+  -webkit-tap-highlight-color:transparent;
+}
+.opt-lbl:hover,.opt-lbl:active{background:var(--b6);border-color:var(--b4);}
+.opt-lbl input{accent-color:var(--b3);flex-shrink:0;width:16px;height:16px;}
+.opt-lbl.correct{background:#d4edda;border-color:#28a745;color:#155724;font-weight:700;}
+.opt-lbl.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24;}
+.fb-box{border-radius:8px;padding:8px 12px;font-size:.68rem;line-height:1.55;font-weight:600;display:none;margin-bottom:8px;}
+.fb-box.show{display:block;}
+.fb-wrong{background:#fce8e8;border:1.5px solid #dc3545;color:#7b1f1f;}
+.fb-exhausted{background:#fff3cd;border:1.5px solid #ffc107;color:#856404;}
+.fb-correct{background:#d4edda;border:1.5px solid #28a745;color:#155724;}
+/* tombol periksa & berikutnya — besar, mudah dipencet di HP */
+.q-btns{display:flex;gap:8px;margin-top:4px;}
+.q-btn{
+  flex:1;background:var(--b3);color:var(--white);border:none;border-radius:10px;
+  padding:12px 10px;font-family:'Nunito',sans-serif;
+  font-size:.76rem;font-weight:800;cursor:pointer;
+  transition:background .2s,transform .15s;
+  min-height:46px;
+  -webkit-tap-highlight-color:transparent;
+}
+.q-btn:hover{background:var(--b2);}
+.q-btn:active{transform:scale(.97);}
+.q-btn-nxt{background:var(--b2);display:none;}
+.q-btn-nxt:hover{background:var(--b1);}
+.score-panel{background:var(--b0);color:var(--white);border-radius:12px;padding:20px;text-align:center;display:none;margin-top:12px;margin-bottom:20px;}
+.score-panel.show{display:block;}
+.score-num{font-size:2.2rem;font-weight:900;color:var(--b5);}
+.score-msg{font-size:.72rem;margin-top:6px;opacity:.9;line-height:1.6;}
+.score-rst{margin-top:12px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.28);color:var(--white);border-radius:10px;padding:10px 22px;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;min-height:44px;}
+.score-rst:hover{background:rgba(255,255,255,.24);}
+/* RESPONSIVE */
+/* tombol cara menggunakan */
+.menu-cara-btn{margin-top:10px;background:transparent;border:1.5px solid var(--b4);border-radius:20px;padding:7px 20px;color:var(--b2);font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;transition:background .18s,color .18s;display:flex;align-items:center;gap:6px;}
+.menu-cara-btn:hover{background:var(--b6);color:var(--b1);}
+/* modal cara menggunakan */
+#caraModal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(8,32,47,.65);align-items:center;justify-content:center;padding:16px;}
+#caraModal.show{display:flex;}
+.cara-box{background:var(--white);border-radius:18px;padding:24px 22px 20px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;box-shadow:0 24px 60px rgba(8,32,47,.35);}
+.cara-close{position:absolute;top:12px;right:14px;background:var(--b6);border:none;border-radius:50%;width:28px;height:28px;font-size:.8rem;cursor:pointer;color:var(--b1);font-weight:700;}
+.cara-close:hover{background:var(--b5);}
+.cara-title{font-family:'Lora',serif;font-size:1.1rem;font-weight:600;color:var(--b0);margin-bottom:16px;text-align:center;}
+.cara-list{display:flex;flex-direction:column;gap:12px;margin-bottom:18px;}
+.cara-item{display:flex;gap:12px;align-items:flex-start;}
+.cara-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
+.cara-item div{font-size:.72rem;color:#2c3e50;line-height:1.6;}
+.cara-item strong{color:var(--b1);}
+.cara-ok{width:100%;background:linear-gradient(135deg,var(--b2),var(--b1));color:var(--white);border:none;border-radius:10px;padding:10px;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;cursor:pointer;}
+.cara-ok:hover{filter:brightness(1.08);}
+@media(max-width:899px){main{padding-left:56px;padding-right:56px;}.nav-prev{left:-50px;}.nav-next{right:-50px;}}
+@media(max-width:640px){main{padding-left:44px;padding-right:44px;}.nav-prev{left:-40px;}.nav-next{right:-40px;}.hd-badge{display:none;}header{flex-direction:column;}.hd-info{width:100%;justify-content:center;}}
+footer{position:relative;z-index:1;text-align:center;padding:8px;font-size:.6rem;color:var(--b2);opacity:.65;}
+/* ZOOM CONTROLS */
+.zoom-bar{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);border:1.5px solid rgba(41,128,185,.18);border-radius:30px;padding:4px 10px;box-shadow:0 3px 14px rgba(8,32,47,.12);position:relative;z-index:10;}
+.zoom-btn{width:32px;height:32px;border-radius:50%;border:none;background:var(--b6);color:var(--b1);font-size:1.1rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s,transform .15s;line-height:1;flex-shrink:0;}
+.zoom-btn:hover{background:var(--b3);color:var(--white);transform:scale(1.1);}
+.zoom-btn:active{transform:scale(.95);}
+.zoom-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;}
+.zoom-val{font-size:.7rem;font-weight:800;color:var(--b1);min-width:38px;text-align:center;letter-spacing:.5px;}
+.zoom-reset{font-size:.6rem;background:var(--b7);border:1px solid var(--b5);border-radius:12px;padding:3px 9px;color:var(--b2);font-weight:700;cursor:pointer;transition:background .15s;white-space:nowrap;}
+.zoom-reset:hover{background:var(--b5);color:var(--b1);}
+.view-toggle{font-size:.68rem;background:var(--b7);border:1px solid var(--b5);border-radius:12px;padding:3px 10px;color:var(--b2);font-weight:700;cursor:pointer;transition:background .15s,color .15s;white-space:nowrap;display:flex;align-items:center;gap:4px;}
+.view-toggle:hover{background:var(--b5);color:var(--b1);}
+.view-toggle.active{background:var(--b3);color:var(--white);border-color:var(--b3);}
+#flipControls{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;padding:4px 16px 0;}
+#zoomControls{display:flex;align-items:center;justify-content:center;padding:6px 16px 0;}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd-brand-wrap">
+    <span class="hd-brand">📚 Flipbook Ikatan Kimia SMA</span>
+    <span class="hd-sub" id="hdSub">Pilih Sub Bab untuk mulai belajar</span>
+  </div>
+  <div class="hd-info">
+    <div class="hd-badge" id="pageLabel" style="display:none">Halaman 1</div>
+    <div class="hd-badge" id="chapterLabel" style="display:none">Sub Bab 1</div>
+    <button class="hd-back-btn" id="backBtn" onclick="goToMenu()">← Menu Utama</button>
+    <div class="timer-wrap">
+      <span class="timer-icon">⏱</span>
+      <div>
+        <span class="timer-label">Waktu Belajar</span>
+        <span class="timer-val" id="timerVal">00:00:00</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="menuUtama">
+  <div class="menu-hero">
+    <div class="menu-hero-title">📚 Ikatan Kimia SMA</div>
+    <div class="menu-hero-sub">Pilih Sub Bab untuk mulai belajar</div>
+  </div>
+
+  <button class="menu-cara-btn" onclick="openCara()">
+    ❓ Cara Menggunakan Flipbook
+  </button>
+
+  <div style="height:14px"></div>
+  <div class="menu-section-label">📖 Materi Sub Bab</div>
+  <div class="menu-grid">
+    <div class="menu-card" id="card-0" onclick="tryOpenFlipbook(0)">
+      <div class="menu-card-thumb">
+        <span class="menu-card-thumb-fallback"></span>
+        <img src="1.png" alt="Sub Bab 1" onerror="this.style.display='none'">
+        <div class="menu-card-lock" id="lock-0" style="display:none"><span class="lock-icon">🔒</span><span class="lock-txt">Selesaikan bab sebelumnya</span></div>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-title">Sub Bab 1</div>
+        <div class="menu-card-desc">Kestabilan Atom &amp; Struktur Lewis</div>
+      </div>
+      <div class="menu-card-progress">
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-0" style="width:0%"></div></div>
+        <div class="prog-label"><span id="prog-label-0">Belum dibaca</span><span id="prog-pct-0">0%</span></div>
+      </div>
+    </div>
+    <div class="menu-card" id="card-1" onclick="tryOpenFlipbook(1)">
+      <div class="menu-card-thumb">
+        <span class="menu-card-thumb-fallback"></span>
+        <img src="18.png" alt="Sub Bab 2" onerror="this.style.display='none'">
+        <div class="menu-card-lock" id="lock-1" style="display:none"><span class="lock-icon">🔒</span><span class="lock-txt">Selesaikan Sub Bab 1 dulu</span></div>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-title">Sub Bab 2</div>
+        <div class="menu-card-desc">Ikatan Ion</div>
+      </div>
+      <div class="menu-card-progress">
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-1" style="width:0%"></div></div>
+        <div class="prog-label"><span id="prog-label-1">Belum dibaca</span><span id="prog-pct-1">0%</span></div>
+      </div>
+    </div>
+    <div class="menu-card" id="card-2" onclick="tryOpenFlipbook(2)">
+      <div class="menu-card-thumb">
+        <span class="menu-card-thumb-fallback"></span>
+        <img src="27.png" alt="Sub Bab 3" onerror="this.style.display='none'">
+        <div class="menu-card-lock" id="lock-2" style="display:none"><span class="lock-icon">🔒</span><span class="lock-txt">Selesaikan Sub Bab 2 dulu</span></div>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-title">Sub Bab 3</div>
+        <div class="menu-card-desc">Ikatan Kovalen</div>
+      </div>
+      <div class="menu-card-progress">
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-2" style="width:0%"></div></div>
+        <div class="prog-label"><span id="prog-label-2">Belum dibaca</span><span id="prog-pct-2">0%</span></div>
+      </div>
+    </div>
+    <div class="menu-card" id="card-3" onclick="tryOpenFlipbook(3)">
+      <div class="menu-card-thumb">
+        <span class="menu-card-thumb-fallback"></span>
+        <img src="40.png" alt="Sub Bab 4" onerror="this.style.display='none'">
+        <div class="menu-card-lock" id="lock-3" style="display:none"><span class="lock-icon">🔒</span><span class="lock-txt">Selesaikan Sub Bab 3 dulu</span></div>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-title">Sub Bab 4</div>
+        <div class="menu-card-desc">Ikatan Logam</div>
+      </div>
+      <div class="menu-card-progress">
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-3" style="width:0%"></div></div>
+        <div class="prog-label"><span id="prog-label-3">Belum dibaca</span><span id="prog-pct-3">0%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="menu-divider">
+  <button class="menu-quiz-btn" onclick="openQuiz()">
+    <span class="menu-quiz-icon">📋</span>
+    <span class="menu-quiz-text">
+      <span class="menu-quiz-title">Evaluasi Akhir</span>
+      <span class="menu-quiz-desc">20 soal · Kestabilan Atom, Ikatan Ion, Ikatan Kovalen &amp; Ikatan Logam</span>
+    </span>
+  </button>
+</div>
+
+<!-- MODAL CARA MENGGUNAKAN -->
+<div id="caraModal" onclick="closeCara(event)">
+  <div class="cara-box">
+    <button class="cara-close" onclick="closeCara()">✕</button>
+    <div class="cara-title">📖 Cara Menggunakan Flipbook</div>
+    <div class="cara-list">
+      <div class="cara-item">
+        <span class="cara-icon">🏠</span>
+        <div><strong>Menu Utama</strong><br>Pilih salah satu Sub Bab untuk mulai membaca materi, atau klik Latihan Soal untuk mengerjakan soal.</div>
+      </div>
+      <div class="cara-item">
+        <span class="cara-icon">👆</span>
+        <div><strong>Membalik Halaman</strong><br>Klik tombol <b>▶</b> / <b>◀</b> di kiri-kanan buku, atau <b>geser (swipe)</b> layar ke kiri/kanan untuk berpindah halaman.</div>
+      </div>
+      <div class="cara-item">
+        <span class="cara-icon">⌨️</span>
+        <div><strong>Keyboard</strong><br>Gunakan tombol <b>← →</b> pada keyboard untuk membalik halaman (di komputer).</div>
+      </div>
+      <div class="cara-item">
+        <span class="cara-icon">🔵</span>
+        <div><strong>Titik Navigasi</strong><br>Titik-titik di bawah buku menunjukkan posisi halaman. Klik titik mana saja untuk loncat ke halaman tersebut.</div>
+      </div>
+      <div class="cara-item">
+        <span class="cara-icon">▶️</span>
+        <div><strong>Video</strong><br>Beberapa halaman berisi video. Klik tombol play untuk memutar video materi.</div>
+      </div>
+      <div class="cara-item">
+        <span class="cara-icon">📝</span>
+        <div><strong>Latihan Soal</strong><br>Jawab soal dengan memilih salah satu pilihan, lalu klik <b>Periksa Jawaban</b>. Tersedia 3 kesempatan per soal.</div>
+      </div>
+      <div class="cara-item">
+        <span class="cara-icon">↩️</span>
+        <div><strong>Kembali ke Menu</strong><br>Klik tombol <b>← Menu Utama</b> di pojok kanan atas untuk kembali ke halaman pilihan Sub Bab.</div>
+      </div>
+    </div>
+    <button class="cara-ok" onclick="closeCara()">Mengerti!</button>
+  </div>
+</div>
+
+<main id="flipbookPage" style="display:none">
+  <div id="zoomControls">
+    <div class="zoom-bar">
+      <button class="zoom-btn" id="zoomOut" title="Perkecil" onclick="changeZoom(-0.1)">−</button>
+      <span class="zoom-val" id="zoomVal">0%</span>
+      <button class="zoom-btn" id="zoomIn" title="Perbesar" onclick="changeZoom(0.1)">+</button>
+      <button class="zoom-reset" onclick="resetZoom()">↺ Reset</button>
+      <button class="view-toggle" id="viewToggleBtn" onclick="togglePageView()" title="Ganti tampilan halaman">📄 1 Hal.</button>
+    </div>
+  </div>
+  <div id="scene"></div>
+  <div id="flipControls">
+    <div class="dots-row" id="dotsRow"></div>
+  </div>
+</main>
+
+<div id="quizPage">
+  <div class="qp-header">
+    <div class="qp-title">📋 Evaluasi Akhir Ikatan Kimia</div>
+    <div class="qp-sub">20 soal · 3 kesempatan per soal</div>
+  </div>
+  <div id="quizPanels"></div>
+</div>
+
+<footer>© 2026 Flipbook Ikatan Kimia SMA · St. Rahmawati</footer>
+<div id="toast"></div>
+<script>
+/* DATA PAGES */
+const SUB_PAGES=[
+  /* Sub Bab 1: 1.png – 17.png, nomor 13 = 13.mp4 */
+  [
+    {type:'img',src:'1.png'},{type:'img',src:'2.png'},{type:'img',src:'3.png'},
+    {type:'img',src:'4.png'},{type:'img',src:'5.png'},{type:'img',src:'6.png'},
+    {type:'img',src:'7.png'},{type:'img',src:'8.png'},{type:'img',src:'9.png'},
+    {type:'img',src:'10.png'},{type:'img',src:'11.png'},{type:'img',src:'12.png'},
+    {type:'video',src:'13.mp4'},
+    {type:'img',src:'14.png'},{type:'img',src:'15.png'},{type:'img',src:'16.png'},
+    {type:'img',src:'17.png'},
+  ],
+  /* Sub Bab 2: 18.png – 26.png, nomor 22 = 22.mp4 */
+  [
+    {type:'img',src:'18.png'},{type:'img',src:'19.png'},{type:'img',src:'20.png'},
+    {type:'img',src:'21.png'},
+    {type:'video',src:'22.mp4'},
+    {type:'img',src:'23.png'},{type:'img',src:'24.png'},{type:'img',src:'25.png'},
+    {type:'img',src:'26.png'},
+  ],
+  /* Sub Bab 3: 27.png – 39.png, nomor 31 = 31.mp4 */
+  [
+    {type:'img',src:'27.png'},{type:'img',src:'28.png'},{type:'img',src:'29.png'},
+    {type:'img',src:'30.png'},
+    {type:'video',src:'31.mp4'},
+    {type:'img',src:'32.png'},{type:'img',src:'33.png'},{type:'img',src:'34.png'},
+    {type:'img',src:'35.png'},{type:'img',src:'36.png'},{type:'img',src:'37.png'},
+    {type:'img',src:'38.png'},{type:'img',src:'39.png'},
+  ],
+  /* Sub Bab 4: 40.png – 55.png, nomor 44 = 44.mp4 */
+  [
+    {type:'img',src:'40.png'},{type:'img',src:'41.png'},{type:'img',src:'42.png'},
+    {type:'img',src:'43.png'},
+    {type:'video',src:'44.mp4'},
+    {type:'img',src:'45.png'},{type:'img',src:'46.png'},{type:'img',src:'47.png'},
+    {type:'img',src:'48.png'},{type:'img',src:'49.png'},{type:'img',src:'50.png'},
+    {type:'img',src:'51.png'},{type:'img',src:'52.png'},{type:'img',src:'53.png'},
+    {type:'img',src:'54.png'},{type:'img',src:'55.png'},
+  ],
+];
+
+function buildSpreads(pages, single){
+  if(single){
+    // 1 halaman per spread: gunakan [i, null] agar masuk branch isSingleL (kiri)
+    // Halaman pertama tetap [null, 0] sebagai cover
+    const sp=[[null,0]];
+    for(let i=1;i<pages.length;i++) sp.push([i,null]);
+    return sp;
+  }
+  // 2 halaman: cover (null,0) lalu pasang (1,2),(3,4),...
+  const sp=[[null,0]];
+  for(let i=1;i<pages.length;i+=2){
+    if(i+1<pages.length) sp.push([i,i+1]); else sp.push([i,null]);
+  }
+  return sp;
+}
+
+/* QUIZ DATA */
+const quizDataAll=[
+  /* ── SUB BAB 1: Kestabilan Atom & Struktur Lewis (Soal 1-5) ── */
+  [
+    {
+      q:'Perhatikan konfigurasi elektron suatu atom berikut: 2,8,2\nAgar mencapai keadaan yang lebih stabil, atom tersebut cenderung ....',
+      opts:['A. menerima 2 elektron','B. menerima 6 elektron','C. melepaskan 2 elektron','D. berbagi 2 elektron'],
+      ans:2,
+      fb:[
+        'Coba fokus pada jumlah elektron di kulit terluar. Berapa elektron valensinya? Agar menjadi seperti gas mulia terdekat, apakah atom tersebut harus menerima banyak elektron atau cukup melepaskan beberapa elektron?',
+        'Terdapat dua kemungkinan: melepaskan 2 elektron, atau menerima 6 elektron. Manakah yang membutuhkan perubahan lebih sedikit?',
+        'Jawaban yang benar adalah C. Konfigurasi 2,8,2 menunjukkan atom memiliki 2 elektron valensi. Agar mencapai konfigurasi stabil seperti neon (2,8), atom lebih mudah melepaskan dua elektron sehingga terbentuk ion bermuatan 2+.'
+      ],
+      ok:'Hebat! Atom dengan konfigurasi 2,8,2 memiliki dua elektron valensi. Untuk mencapai konfigurasi stabil seperti gas mulia terdekat (2,8), atom tersebut lebih mudah melepaskan dua elektron daripada menerima enam elektron.'
+    },
+    {
+      q:'Atom X memiliki konfigurasi elektron 2,7. Agar memenuhi kaidah oktet, atom X sebaiknya ....',
+      opts:['A. melepaskan 7 elektron','B. melepaskan 1 elektron','C. menerima 1 elektron','D. menerima 7 elektron'],
+      ans:2,
+      fb:[
+        'Hitung jumlah elektron pada kulit terluar. Berapa elektron lagi yang diperlukan agar jumlahnya menjadi 8?',
+        'Tujuan atom bukan memiliki elektron sebanyak mungkin, tetapi memiliki delapan elektron pada kulit valensi. Pikirkan perubahan yang paling sederhana untuk mencapai kondisi tersebut.',
+        'Jawaban yang benar adalah C. Konfigurasi 2,7 berarti atom memiliki 7 elektron valensi. Dengan menerima 1 elektron, konfigurasi berubah menjadi 2,8 sehingga memenuhi kaidah oktet.'
+      ],
+      ok:'Hebat! Atom dengan konfigurasi 2,7 hanya kekurangan satu elektron untuk memiliki delapan elektron pada kulit terluarnya, sehingga cenderung menerima satu elektron.'
+    },
+    {
+      q:'Mengapa sebagian besar atom membentuk ikatan kimia dengan atom lain?',
+      opts:['A. untuk memperbesar ukuran atom','B. untuk memperoleh konfigurasi elektron yang lebih stabil','C. untuk menambah jumlah proton','D. untuk meningkatkan nomor atom'],
+      ans:1,
+      fb:[
+        'Perhatikan sifat unsur-unsur gas mulia seperti neon dan argon. Mengapa unsur-unsur tersebut sangat sulit bereaksi?',
+        'Ikatan kimia tidak mengubah jumlah proton atau nomor atom. Yang berubah adalah bagaimana elektron valensi digunakan atau dipindahkan sehingga atom menjadi lebih stabil.',
+        'Jawaban yang benar adalah B. Atom cenderung membentuk ikatan karena konfigurasi elektronnya belum stabil. Dengan membentuk ikatan, atom dapat mencapai konfigurasi seperti gas mulia yang memiliki tingkat kestabilan tinggi.'
+      ],
+      ok:'Hebat! Sebagian besar atom membentuk ikatan kimia agar memperoleh konfigurasi elektron yang lebih stabil, umumnya menyerupai konfigurasi gas mulia sehingga energi sistem menjadi lebih rendah.'
+    },
+    {
+      q:'Perhatikan beberapa konfigurasi elektron berikut:\n(1) 2,8\n(2) 2,8,1\n(3) 2,8,8\n(4) 2,7\nKonfigurasi yang sudah stabil ditunjukkan oleh nomor ....',
+      opts:['A. (1) dan (2)','B. (2) dan (4)','C. (1) dan (3)','D. (3) dan (4)'],
+      ans:2,
+      fb:[
+        'Periksa jumlah elektron pada kulit terluar setiap konfigurasi. Konfigurasi manakah yang telah memiliki kulit valensi penuh?',
+        'Konfigurasi yang stabil umumnya memiliki 8 elektron pada kulit valensi (atau 2 elektron untuk kulit pertama). Fokus pada distribusi elektron kulit terluarnya.',
+        'Jawaban yang benar adalah C. Konfigurasi 2,8 dan 2,8,8 memiliki kulit valensi penuh sehingga relatif stabil. Sebaliknya, konfigurasi 2,8,1 dan 2,7 masih cenderung bereaksi.'
+      ],
+      ok:'Hebat sekali! Konfigurasi 2,8 dan 2,8,8 telah memiliki kulit valensi penuh sehingga menyerupai konfigurasi gas mulia dan bersifat relatif stabil.'
+    },
+    {
+      q:'Perhatikan pasangan unsur berikut.\nNa (Z = 11) dan Cl (Z = 17)\nPernyataan yang paling tepat mengenai pembentukan ikatan ionik pada kedua unsur tersebut adalah ....',
+      opts:[
+        'A. Ikatan ionik terbentuk karena adanya gaya tarik elektrostatik antara ion Na⁺ dan Cl⁻.',
+        'B. Perpindahan elektron dari atom Na ke atom Cl merupakan penyebab utama terbentuknya ikatan ionik.',
+        'C. Atom Na dan atom Cl menggunakan bersama satu pasangan elektron.',
+        'D. Atom Na dan atom Cl saling bertukar elektron.'
+      ],
+      ans:0,
+      fb:[
+        'Perhatikan kembali perbedaan antara proses pembentukan ion dan proses terbentuknya ikatan ionik. Apakah keduanya merupakan proses yang sama?',
+        'Perpindahan elektron memang menghasilkan ion Na⁺ dan Cl⁻. Namun, setelah ion-ion tersebut terbentuk, peristiwa apa yang menyebabkan keduanya tetap menyatu menjadi senyawa NaCl?',
+        'Jawaban yang benar adalah A.\nPerpindahan elektron dari atom Na ke atom Cl hanya merupakan proses pembentukan ion. Ikatan ionik tidak terbentuk karena perpindahan elektron, melainkan karena gaya tarik elektrostatik antara ion Na⁺ dan Cl⁻ yang bermuatan berlawanan. Gaya tarik inilah yang menyatukan kedua ion menjadi senyawa ion yang stabil.'
+      ],
+      ok:'Hebat!\nAtom Na terlebih dahulu melepaskan satu elektron sehingga menjadi ion Na⁺, sedangkan atom Cl menerima elektron tersebut sehingga menjadi ion Cl⁻. Setelah kedua ion terbentuk, gaya tarik elektrostatik antara ion Na⁺ dan Cl⁻ menyebabkan terbentuknya ikatan ionik sehingga dihasilkan senyawa NaCl yang stabil.'
+    },
+  ],
+  /* ── SUB BAB 2: Ikatan Ion (Soal 6-10) ── */
+  [
+    {
+      q:'Atom magnesium memiliki konfigurasi elektron 2,8,2. Agar mencapai konfigurasi elektron stabil, magnesium akan ....',
+      opts:['A. menerima dua elektron','B. menerima satu elektron','C. melepaskan dua elektron','D. menggunakan bersama dua elektron'],
+      ans:2,
+      fb:[
+        'Perhatikan jumlah elektron valensi magnesium. Atom cenderung mencapai konfigurasi elektron stabil dengan cara yang membutuhkan energi paling kecil.',
+        'Magnesium berada pada golongan IIA sehingga memiliki dua elektron valensi. Apakah lebih mudah melepaskan dua elektron atau menerima enam elektron?',
+        'Jawaban yang benar adalah C. Magnesium melepaskan dua elektron sehingga berubah menjadi ion Mg²⁺ yang memiliki konfigurasi elektron stabil seperti gas mulia.'
+      ],
+      ok:'Hebat! Magnesium memiliki dua elektron valensi. Agar mencapai konfigurasi elektron stabil seperti gas mulia (Ne), Magnesium lebih mudah melepaskan dua elektron sehingga membentuk ion Mg²⁺.'
+    },
+    {
+      q:'Perhatikan ion berikut.\nMg²⁺ dan Cl⁻\nAgar terbentuk senyawa yang bersifat netral, jumlah ion klorida yang diperlukan adalah ....',
+      opts:['A. satu ion Cl⁻','B. dua ion Cl⁻','C. tiga ion Cl⁻','D. empat ion Cl⁻'],
+      ans:1,
+      fb:[
+        'Ingat bahwa senyawa ion harus memiliki jumlah muatan positif dan negatif yang seimbang.',
+        'Muatan Mg²⁺ adalah +2, sedangkan setiap ion Cl⁻ bermuatan -1. Berapa ion Cl⁻ yang diperlukan agar total muatan menjadi nol?',
+        'Jawaban yang benar adalah B. Satu ion Mg²⁺ memerlukan dua ion Cl⁻ sehingga: (+2) + (-1) + (-1) = 0. Barulah terbentuk senyawa ion yang stabil dengan rumus MgCl₂.'
+      ],
+      ok:'Hebat! Satu ion Mg²⁺ bermuatan +2 harus dipasangkan dengan dua ion Cl⁻ yang masing-masing bermuatan -1 agar jumlah muatan total menjadi nol. Oleh karena itu terbentuk senyawa MgCl₂.'
+    },
+    {
+      q:'Manakah pasangan unsur yang paling mungkin membentuk ikatan ionik?',
+      opts:['A. H dan Cl','B. C dan O','C. Na dan O','D. N dan H'],
+      ans:2,
+      fb:[
+        'Perhatikan letak unsur pada tabel periodik. Ikatan ionik biasanya terbentuk antara unsur yang berasal dari golongan yang sangat berbeda.',
+        'Perhatikan sifat logam dan nonlogam. Unsur logam cenderung melepaskan elektron, sedangkan unsur nonlogam cenderung menerima elektron. Pasangan unsur manakah yang memungkinkan terjadinya perpindahan elektron?',
+        'Jawaban yang benar adalah C. Na dan O. Natrium mudah melepaskan elektron sedangkan oksigen mudah menerima elektron. Oleh karena itu keduanya cenderung membentuk ikatan ionik.'
+      ],
+      ok:'Hebat! Ikatan ionik umumnya terbentuk antara logam dan nonlogam yang memiliki perbedaan keelektronegatifan besar. Natrium merupakan logam, sedangkan oksigen merupakan nonlogam sehingga keduanya cenderung membentuk ikatan ionik.'
+    },
+    {
+      q:'Seorang siswa mengamati proses pembentukan senyawa NaCl melalui simulasi digital. Setelah melihat atom natrium melepaskan satu elektron yang kemudian diterima oleh atom klorin, siswa tersebut menyimpulkan bahwa ikatan ion telah terbentuk pada saat elektron berpindah dari Na ke Cl.\nBerdasarkan konsep ikatan ion, analisis yang paling tepat terhadap kesimpulan siswa tersebut adalah ....',
+      opts:[
+        'A. Kesimpulan tersebut benar karena perpindahan elektron merupakan proses terbentuknya ikatan ion.',
+        'B. Kesimpulan tersebut kurang tepat, karena perpindahan elektron hanya menghasilkan ion Na⁺ dan Cl⁻. Ikatan ion baru terbentuk ketika kedua ion tersebut saling tarik-menarik akibat gaya elektrostatik.',
+        'C. Kesimpulan tersebut benar karena setiap perpindahan elektron selalu menghasilkan ikatan ion.',
+        'D. Kesimpulan tersebut salah karena atom Na dan Cl membentuk ikatan kovalen melalui penggunaan bersama pasangan elektron.'
+      ],
+      ans:1,
+      fb:[
+        'Coba bedakan antara proses pembentukan ion dan proses terbentuknya ikatan ion. Apakah kedua proses tersebut terjadi pada tahap yang sama?',
+        'Ketika atom Na melepaskan elektron dan atom Cl menerimanya, hasilnya adalah ion Na⁺ dan Cl⁻. Setelah ion-ion tersebut terbentuk, peristiwa apa yang menyebabkan keduanya tetap menyatu menjadi senyawa NaCl?',
+        'Jawaban yang benar adalah B.\nPerpindahan elektron hanya menghasilkan ion Na⁺ dan Cl⁻. Ikatan ion tidak terbentuk karena perpindahan elektron, tetapi karena gaya tarik elektrostatik antara kation (Na⁺) dan anion (Cl⁻) yang bermuatan berlawanan. Gaya tarik inilah yang menyatukan kedua ion menjadi senyawa ion yang stabil.'
+      ],
+      ok:'Hebat!\nPerpindahan elektron dari atom Na ke atom Cl merupakan proses pembentukan ion, yaitu terbentuknya ion Na⁺ dan Cl⁻. Ikatan ion belum terbentuk pada tahap tersebut. Ikatan ion baru terbentuk ketika ion Na⁺ dan Cl⁻ saling tarik-menarik akibat adanya gaya elektrostatik antara muatan positif dan muatan negatif sehingga membentuk senyawa NaCl yang stabil.'
+    },
+    {
+      q:'Perhatikan data berikut.\nAtom | Ion yang terbentuk\nNa   | Na⁺\nMg | Mg²⁺\nCl  | Cl⁻\n\nSeorang siswa menyimpulkan bahwa NaCl dan MgCl merupakan rumus senyawa yang terbentuk karena setiap atom yang telah menjadi ion cukup berikatan dengan satu atom lain agar mencapai kestabilan.\nAnalisis yang paling tepat terhadap pendapat siswa tersebut adalah ....',
+      opts:[
+        'A. Pendapat benar karena setiap ion hanya dapat berikatan dengan satu ion lain.',
+        'B. Pendapat kurang tepat karena pembentukan senyawa ion harus memperhatikan keseimbangan muatan. Na membentuk NaCl, sedangkan Mg membentuk MgCl₂ agar total muatan senyawa menjadi nol.',
+        'C. Pendapat benar karena semua senyawa ion memiliki perbandingan atom 1 : 1.',
+        'D. Pendapat salah karena Mg menerima dua elektron dari Cl.'
+      ],
+      ans:1,
+      fb:[
+        'Perhatikan muatan masing-masing ion. Senyawa ion yang stabil harus memiliki jumlah muatan positif dan muatan negatif yang saling menyeimbangkan.',
+        'Na⁺ hanya memerlukan satu Cl⁻ karena muatannya sudah seimbang. Apakah kondisi yang sama juga berlaku untuk Mg²⁺? Berapa ion Cl⁻ yang dibutuhkan agar jumlah muatan total menjadi nol?',
+        'Jawaban yang benar adalah B.\nRumus senyawa ion tidak ditentukan oleh banyaknya atom yang berikatan, tetapi oleh keseimbangan muatan. Na⁺ (+1) berikatan dengan Cl⁻ (−1) membentuk NaCl, sedangkan Mg²⁺ (+2) memerlukan dua ion Cl⁻ (2 × −1) sehingga terbentuk MgCl₂.'
+      ],
+      ok:'Hebat sekali!\nDalam senyawa ion, rumus kimia ditentukan oleh keseimbangan muatan, bukan oleh jumlah atom yang berikatan. Ion Na⁺ cukup berikatan dengan satu ion Cl⁻ sehingga membentuk NaCl. Sementara itu, ion Mg²⁺ memiliki muatan +2 sehingga memerlukan dua ion Cl⁻ yang masing-masing bermuatan −1 agar jumlah muatan total menjadi nol. Oleh karena itu, rumus senyawa yang terbentuk adalah MgCl₂.'
+    },
+  ],
+  /* ── SUB BAB 3: Ikatan Kovalen (Soal 11-17) ── */
+  [
+    {
+      q:'Jenis ikatan kovalen yang terbentuk pada molekul H₂ adalah ....',
+      opts:['A. ikatan kovalen tunggal','B. ikatan kovalen rangkap dua','C. ikatan kovalen rangkap tiga','D. ikatan kovalen koordinasi'],
+      ans:0,
+      fb:[
+        'Perhatikan jumlah elektron valensi atom hidrogen. Berapa elektron yang dapat disumbangkan masing-masing atom untuk membentuk pasangan elektron bersama?',
+        'Jenis ikatan kovalen ditentukan oleh jumlah pasangan elektron yang dipakai bersama, bukan oleh jumlah atomnya.',
+        'Jawaban yang benar adalah A. Pada H₂ hanya terdapat satu pasangan elektron bersama, sehingga terbentuk ikatan kovalen tunggal.'
+      ],
+      ok:'Hebat!\nJawaban Anda benar. Setiap atom hidrogen menyumbangkan satu elektron sehingga terbentuk satu pasangan elektron bersama. Oleh karena itu, H₂ memiliki ikatan kovalen tunggal.'
+    },
+    {
+      q:'Molekul O₂ memiliki ....',
+      opts:['A. satu pasangan elektron bersama','B. dua pasangan elektron bersama','C. tiga pasangan elektron bersama','D. empat pasangan elektron bersama'],
+      ans:1,
+      fb:[
+        'Tuliskan terlebih dahulu elektron valensi atom oksigen. Berapa elektron yang masih diperlukan agar setiap atom mencapai delapan elektron?',
+        'Coba gambarkan struktur Lewis O₂ dan hitung jumlah pasangan elektron yang digunakan bersama.',
+        'Jawaban yang benar adalah B. Pada molekul O₂    terdapat dua pasangan elektron yang dipakai bersama, sehingga terbentuk ikatan kovalen rangkap dua.'
+      ],
+      ok:'Hebat!\nMasing-masing atom oksigen membutuhkan dua elektron lagi untuk mencapai oktet sehingga keduanya berbagi dua pasangan elektron, membentuk ikatan kovalen rangkap dua.'
+    },
+    {
+      q:'Molekul nitrogen (N₂ ) mempunyai ....',
+      opts:['A. satu ikatan kovalen tunggal','B. satu ikatan kovalen rangkap dua','C. satu ikatan kovalen rangkap tiga','D. satu ikatan kovalen koordinasi'],
+      ans:2,
+      fb:[
+        'Hitung elektron valensi atom nitrogen. Berapa elektron yang masih diperlukan agar memenuhi kaidah oktet?',
+        'Jika setiap atom membutuhkan tiga elektron tambahan, berapa pasangan elektron yang harus digunakan bersama?',
+        'Jawaban yang benar adalah C. Pada molekul N₂ terdapat tiga pasangan elektron bersama sehingga terbentuk ikatan kovalen rangkap tiga yang sangat kuat.'
+      ],
+      ok:'Hebat!\nMasing-masing atom nitrogen memiliki lima elektron valensi dan membutuhkan tiga elektron lagi untuk mencapai oktet, sehingga terbentuk tiga pasangan elektron bersama.'
+    },
+    {
+      q:'Ikatan kovalen koordinasi terjadi ketika ....',
+      opts:['A. masing-masing atom menyumbangkan satu elektron','B. seluruh pasangan elektron berasal dari satu atom','C. elektron berpindah dari logam ke nonlogam','D. dua ion bermuatan berlawanan saling tarik-menarik'],
+      ans:1,
+      fb:[
+        'Perhatikan asal pasangan elektron yang digunakan bersama. Apakah pasangan elektron berasal dari kedua atom atau hanya dari salah satu atom?',
+        'Pada jenis ikatan tertentu, seluruh pasangan elektron justru disumbangkan oleh satu atom.',
+        'Jawaban yang benar adalah B. Ikatan kovalen koordinasi terbentuk ketika kedua elektron dalam pasangan ikatan berasal dari satu atom donor, kemudian digunakan bersama dengan atom penerima.'
+      ],
+      ok:'Hebat!\nPada ikatan kovalen koordinasi, pasangan elektron yang digunakan bersama berasal dari satu atom saja, sedangkan atom lain menyediakan orbital kosong untuk menerimanya.'
+    },
+    {
+      q:'Pada ion NH₄⁺, ikatan kovalen koordinasi terbentuk antara ....',
+      opts:['A. atom N dan tiga atom H','B. atom N dan ion H⁺ tambahan','C. sesama atom H','D. ion H⁺ dengan ion H⁺'],
+      ans:1,
+      fb:[
+        'Perhatikan asal pembentukan NH₄⁺. Apakah semua atom H berasal dari proses yang sama?',
+        'Ingat kembali pasangan elektron bebas pada atom nitrogen. Pasangan elektron tersebut dapat digunakan untuk mengikat partikel yang tidak memiliki elektron.',
+        'Jawaban yang benar adalah B. Ikatan koordinasi pada NH₄⁺ terbentuk ketika pasangan elektron bebas nitrogen didonasikan kepada H⁺.'
+      ],
+      ok:'Hebat!\nAtom nitrogen pada NH₃ masih memiliki satu pasangan elektron bebas. Pasangan elektron tersebut didonasikan kepada H⁺ sehingga terbentuk satu ikatan kovalen koordinasi pada ion NH₄⁺.'
+    },
+    {
+      q:'Perhatikan tabel berikut:\nH₂ → P | O₂ → Q | N₂ → R\nUrutan jenis ikatan yang benar adalah ....',
+      opts:['A. P = rangkap dua, Q = tunggal, R = rangkap tiga','B. P = tunggal, Q = rangkap dua, R = rangkap tiga','C. P = tunggal, Q = rangkap tiga, R = koordinasi','D. P = koordinasi, Q = rangkap dua, R = tunggal'],
+      ans:1,
+      fb:[
+        'Hitung jumlah pasangan elektron bersama pada masing-masing molekul.',
+        'Hubungkan struktur Lewis setiap molekul dengan jumlah pasangan elektron yang digunakan bersama.',
+        'Jawaban yang benar adalah B. H₂: ikatan tunggal | O₂: ikatan rangkap dua | N₂: ikatan rangkap tiga.'
+      ],
+      ok:'Hebat!\nH₂ memiliki satu pasangan elektron bersama, O₂ memiliki dua pasangan, sedangkan N₂ memiliki tiga pasangan elektron bersama.'
+    },
+    {
+      q:'Berdasarkan struktur Lewis O=C=O, molekul CO₂ memiliki ....',
+      opts:['A. dua ikatan kovalen tunggal','B. satu ikatan rangkap dua dan satu ikatan tunggal','C. dua ikatan kovalen rangkap dua','D. satu ikatan kovalen rangkap tiga'],
+      ans:2,
+      fb:[
+        'Perhatikan jumlah garis yang menghubungkan atom C dengan atom O pada struktur Lewis.',
+        'Setiap dua garis pada struktur Lewis menunjukkan satu ikatan rangkap dua. Hitung jumlah garis di kedua sisi atom karbon.',
+        'Jawaban yang benar adalah C. Pada molekul CO₂ terdapat dua ikatan kovalen rangkap dua, yaitu antara karbon dengan masing-masing atom oksigen, sehingga seluruh atom memenuhi kaidah oktet.'
+      ],
+      ok:'Hebat!\nPada struktur Lewis CO₂, atom karbon berbagi dua pasangan elektron dengan setiap atom oksigen sehingga terbentuk dua ikatan kovalen rangkap dua.'
+    },
+  ],
+  /* ── SUB BAB 4: Ikatan Logam (Soal 18-20) ── */
+  [
+    {
+      q:'"Pada logam, elektron valensi tidak dimiliki oleh satu atom tertentu, tetapi bergerak bebas di antara ion-ion logam." Pernyataan tersebut menunjukkan bahwa ikatan logam terbentuk karena ....',
+      opts:['A. perpindahan elektron dari logam ke nonlogam','B. penggunaan bersama pasangan elektron oleh dua atom','C. gaya tarik antara ion logam positif dan lautan elektron yang bergerak bebas','D. gaya tarik antara ion positif dan ion negatif'],
+      ans:2,
+      fb:[
+        'Perhatikan apakah pada logam terdapat atom nonlogam yang menerima elektron. Apakah elektron berpindah ke atom lain atau justru bergerak bebas di seluruh struktur logam?',
+        'Ikatan ion: terjadi perpindahan elektron. Ikatan kovalen: terjadi penggunaan bersama pasangan elektron. Ikatan logam: fokus pada konsep lautan elektron.',
+        'Jawaban yang benar adalah C. Pada ikatan logam, elektron valensi membentuk lautan elektron yang bergerak bebas di antara ion-ion logam positif. Gaya tarik antara keduanya menyebabkan logam tetap menyatu.'
+      ],
+      ok:'Hebat!\nIkatan logam terjadi karena adanya gaya tarik elektrostatik antara kation logam dan elektron valensi yang terdelokalisasi (lautan elektron).'
+    },
+    {
+      q:'Sebuah kawat tembaga digunakan sebagai penghantar listrik karena ....',
+      opts:['A. atom tembaga mudah berubah menjadi ion negatif','B. memiliki elektron bebas yang dapat bergerak membawa muatan listrik','C. mengandung ikatan ion yang kuat','D. memiliki molekul-molekul yang mudah berpindah tempat'],
+      ans:1,
+      fb:[
+        'Ketika listrik mengalir, harus ada partikel bermuatan yang dapat bergerak. Pada logam, partikel apakah yang paling mudah bergerak?',
+        'Sebenarnya yang bergerak bukan atom logamnya, melainkan partikel yang jauh lebih kecil dan bermuatan negatif. Coba pikirkan partikel tersebut.',
+        'Jawaban yang benar adalah B. Logam menghantarkan listrik karena memiliki elektron bebas yang dapat bergerak di antara ion-ion logam. Ketika diberikan beda potensial, elektron-elektron tersebut bergerak membawa muatan listrik.'
+      ],
+      ok:'Hebat!\nElektron valensi pada logam dapat bergerak bebas di dalam kisi logam sehingga mampu menghantarkan arus listrik dengan sangat baik.'
+    },
+    {
+      q:'Perhatikan sifat-sifat berikut:\n(1) Mudah ditempa menjadi berbagai bentuk.\n(2) Dapat ditarik menjadi kawat tipis.\n(3) Menghantarkan panas dan listrik dengan baik.\nSifat-sifat tersebut dimiliki logam karena ....',
+      opts:['A. adanya pasangan elektron bebas pada setiap atom','B. elektron valensi dapat bergerak bebas sehingga ikatan tetap terjaga saat lapisan logam bergeser','C. logam tersusun atas molekul-molekul yang saling berjauhan','D. logam memiliki ikatan ion yang sangat kuat'],
+      ans:1,
+      fb:[
+        'Bayangkan lapisan-lapisan atom logam didorong hingga bergeser. Mengapa logam tidak langsung pecah ketika lapisan tersebut berpindah?',
+        'Jika elektron dapat bergerak bebas dan tetap mengikat ion-ion logam, apa yang akan terjadi ketika kisi logam mengalami perubahan bentuk? Apakah ikatannya langsung putus atau tetap bertahan?',
+        'Jawaban yang benar adalah B. Elektron valensi membentuk lautan elektron yang tetap menjaga gaya tarik antarion saat logam ditempa atau ditarik, sehingga logam tidak mudah patah.'
+      ],
+      ok:'Hebat!\nJawaban Anda benar. Elektron yang bergerak bebas tetap mempertahankan gaya tarik antara ion-ion logam walaupun lapisan atom bergeser. Inilah sebabnya logam dapat ditempa, ditarik menjadi kawat, dan tetap menghantarkan panas maupun listrik dengan baik.'
+    },
+  ],
+];
+
+/* QUIZ STATE — gabung semua soal jadi 1 array, ambil 20 saja */
+const allSoal=quizDataAll.flat().slice(0,20);
+const TOTAL_SOAL=20;
+const quiz={data:allSoal,att:new Array(TOTAL_SOAL).fill(0),done:new Array(TOTAL_SOAL).fill(false),ok:new Array(TOTAL_SOAL).fill(false),sel:new Array(TOTAL_SOAL).fill(null),cur:0,built:false};
+
+/* DETEKSI iOS */
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+              (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+// iOS: nonaktifkan animasi flip berat, gunakan transisi sederhana
+if(isIOS){
+  document.documentElement.style.setProperty('--flip-dur','0.22s');
+  document.documentElement.style.setProperty('--flip-ease','ease-out');
+}
+let bookWrapEl=null,leftSideEl=null,rightSideEl=null,curLF=null,curRF=null,prevBtn=null,nextBtn=null;
+let activeView='menu';
+
+/* BOOK STATE */
+let curSubBab=-1,PAGES=[],SPREADS=[],TOTAL=0,curSpread=0,flipping=false,dragDX=0;
+
+/* ═══════════════════════════════════════════
+   PROGRESS & LOCK SYSTEM (localStorage)
+   ═══════════════════════════════════════════ */
+const PROG_KEY='ikimia_progress_v1';
+const TOTAL_PAGES_PER_SUB=[17,9,13,16]; // jumlah halaman tiap sub bab
+
+// Load progres dari localStorage
+function loadProgress(){
+  try{
+    const raw=localStorage.getItem(PROG_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  // Default: semua 0, sub bab 0 terbuka
+  return{maxPage:[0,0,0,0], completed:[false,false,false,false]};
+}
+
+// Simpan progres ke localStorage
+function saveProgress(prog){
+  try{ localStorage.setItem(PROG_KEY, JSON.stringify(prog)); }catch(e){}
+}
+
+// Cek apakah sub bab idx terbuka (unlocked)
+function isUnlocked(idx){
+  if(idx===0) return true; // sub bab 1 selalu terbuka
+  const prog=loadProgress();
+  return prog.completed[idx-1]===true;
+}
+
+// Update progres saat membaca halaman
+function trackProgress(subIdx, pageIdx){
+  const prog=loadProgress();
+  const total=TOTAL_PAGES_PER_SUB[subIdx];
+  // Simpan halaman terbuka terbanyak
+  if(pageIdx > prog.maxPage[subIdx]){
+    prog.maxPage[subIdx]=pageIdx;
+  }
+  // Tandai selesai jika sudah sampai halaman terakhir
+  if(pageIdx >= total-1){
+    prog.completed[subIdx]=true;
+  }
+  saveProgress(prog);
+  updateMenuProgress();
+}
+
+// Hitung persentase progres
+function getProgressPct(subIdx){
+  const prog=loadProgress();
+  const total=TOTAL_PAGES_PER_SUB[subIdx];
+  if(prog.completed[subIdx]) return 100;
+  return Math.min(100, Math.round((prog.maxPage[subIdx]/(total-1))*100));
+}
+
+// Update tampilan progress bar & lock di semua card
+function updateMenuProgress(){
+  const prog=loadProgress();
+  for(let i=0;i<4;i++){
+    const pct=getProgressPct(i);
+    const unlocked=isUnlocked(i);
+    const completed=prog.completed[i];
+
+    // Progress bar
+    const bar=document.getElementById('prog-'+i);
+    const lbl=document.getElementById('prog-label-'+i);
+    const pctEl=document.getElementById('prog-pct-'+i);
+    if(bar) bar.style.width=pct+'%';
+    if(pctEl) pctEl.textContent=pct+'%';
+    if(lbl){
+      if(completed) lbl.textContent='✅ Selesai';
+      else if(pct>0) lbl.textContent='Sedang dibaca...';
+      else if(!unlocked) lbl.textContent='🔒 Terkunci';
+      else lbl.textContent='Belum dibaca';
+    }
+
+    // Lock overlay
+    const lock=document.getElementById('lock-'+i);
+    const card=document.getElementById('card-'+i);
+    if(lock) lock.style.display=unlocked?'none':'flex';
+    if(card){
+      if(unlocked) card.classList.remove('locked');
+      else card.classList.add('locked');
+    }
+  }
+}
+
+// Buka flipbook jika tidak terkunci
+function tryOpenFlipbook(idx){
+  if(!isUnlocked(idx)){
+    showToast('🔒 Selesaikan Sub Bab '+(idx)+' terlebih dahulu!');
+    return;
+  }
+  openFlipbook(idx);
+}
+
+// Ambil halaman terakhir yang dibaca untuk resume
+function getLastPage(subIdx){
+  const prog=loadProgress();
+  return prog.maxPage[subIdx]||0;
+}
+function showView(v){
+  if(v!=='flipbook') pauseAllVideos();
+  activeView=v;
+  document.getElementById('menuUtama').style.display=v==='menu'?'flex':'none';
+  document.getElementById('flipbookPage').style.display=v==='flipbook'?'flex':'none';
+  document.getElementById('quizPage').style.display=v==='quiz'?'block':'none';
+  document.getElementById('backBtn').style.display=v!=='menu'?'inline-block':'none';
+  document.getElementById('pageLabel').style.display=v==='flipbook'?'inline-block':'none';
+  document.getElementById('chapterLabel').style.display=v==='flipbook'?'inline-block':'none';
+  document.getElementById('hdSub').textContent=v==='menu'?'Pilih Sub Bab untuk mulai belajar':v==='quiz'?'Latihan Soal':'Sub Bab '+(curSubBab+1);
+}
+function goToMenu(){showView('menu');updateMenuProgress();}
+
+/* OPEN FLIPBOOK */
+function openFlipbook(subIdx){
+  curSubBab=subIdx;
+  PAGES=SUB_PAGES[subIdx];
+  singlePage = window.innerWidth <= 640;
+  SPREADS=buildSpreads(PAGES, singlePage);
+  TOTAL=SPREADS.length;
+  zoomLevel=1.0;
+
+  // Resume ke halaman terakhir yang dibaca
+  const lastPage=getLastPage(subIdx);
+  // Cari spread yang mengandung lastPage
+  curSpread=0;
+  if(lastPage>0){
+    for(let s=0;s<SPREADS.length;s++){
+      const[l,r]=SPREADS[s];
+      if(r===lastPage||l===lastPage){curSpread=s;break;}
+      if((r!==null&&r<=lastPage)||(l!==null&&l<=lastPage)) curSpread=s;
+    }
+    if(lastPage>0) showToast('📖 Melanjutkan dari halaman '+(lastPage+1));
+  }
+
+  showView('flipbook');
+  updateViewToggleBtn();
+  renderBook();
+  // Track halaman awal
+  trackProgress(subIdx, lastPage);
+}
+
+/* OPEN QUIZ */
+function openQuiz(){
+  showView('quiz');
+  if(!quiz.built){buildQuizPanel();quiz.built=true;}
+}
+function buildQuizPanel(){
+  const container=document.getElementById('quizPanels');
+  container.appendChild(makeQuizWidget());
+}
+
+/* BUILD QUIZ WIDGET — 1 quiz tunggal */
+function makeQuizWidget(){
+  const wrap=document.createElement('div');wrap.className='qwrap';wrap.id='qwrapAll';
+  wrap.innerHTML=`<div class="qt-title">📝 Latihan Soal Ikatan Kimia</div><div class="qt-sub">Jawab satu per satu · 3 kesempatan tiap soal</div><div class="qpb-bg"><div class="qpb" id="qpbAll"></div></div><div class="qpl" id="qplAll">Soal 1 dari ${TOTAL_SOAL}</div>`;
+  quiz.data.forEach((item,idx)=>{
+    const card=document.createElement('div');card.className='q-card'+(idx===0?' active':'');card.id=`qc_${idx}`;
+
+    // nomor urut soal
+    const qnum=document.createElement('div');qnum.className='q-num';qnum.textContent=`Soal ${idx+1} dari ${TOTAL_SOAL}`;card.appendChild(qnum);
+
+    const ar=document.createElement('div');ar.className='att-row';
+    const al=document.createElement('span');al.className='att-lbl';al.textContent='Kesempatan:';ar.appendChild(al);
+    for(let d=0;d<3;d++){const dot=document.createElement('span');dot.className='att-dot';dot.id=`qdot_${idx}_${d}`;ar.appendChild(dot);}
+    card.appendChild(ar);
+
+    const qt=document.createElement('div');qt.className='q-text';qt.textContent=item.q;card.appendChild(qt);
+    const opts=document.createElement('div');opts.className='q-opts';
+    item.opts.forEach((opt,oi)=>{
+      const lbl=document.createElement('label');lbl.className='opt-lbl';lbl.id=`opt_${idx}_${oi}`;
+      const inp=document.createElement('input');inp.type='radio';inp.name=`qq_${idx}`;inp.value=oi;
+      inp.addEventListener('change',()=>{if(!quiz.done[idx]) quiz.sel[idx]=oi;});
+      lbl.appendChild(inp);lbl.appendChild(document.createTextNode(opt));opts.appendChild(lbl);
+    });
+    card.appendChild(opts);
+    const fb=document.createElement('div');fb.className='fb-box';fb.id=`fb_${idx}`;card.appendChild(fb);
+    const btns=document.createElement('div');btns.className='q-btns';
+    const bc=document.createElement('button');bc.className='q-btn';bc.id=`bc_${idx}`;bc.textContent='✔ Periksa Jawaban';bc.addEventListener('click',()=>checkAns(idx));
+    const bn=document.createElement('button');bn.className='q-btn q-btn-nxt';bn.id=`bn_${idx}`;
+    bn.textContent=idx<quiz.data.length-1?'Soal Berikutnya →':'🏁 Lihat Hasil';
+    bn.addEventListener('click',()=>nextQ(idx));
+    btns.appendChild(bc);btns.appendChild(bn);card.appendChild(btns);wrap.appendChild(card);
+  });
+  const sp=document.createElement('div');sp.className='score-panel';sp.id='scorePanAll';
+  sp.innerHTML=`<div class="score-num" id="scoreNumAll">0/${TOTAL_SOAL}</div><div class="score-msg" id="scoreMsgAll"></div><button class="score-rst" id="btnRstAll">🔄 Coba Lagi</button>`;
+  wrap.appendChild(sp);return wrap;
+}
+
+/* QUIZ LOGIC */
+function checkAns(idx){
+  if(quiz.done[idx]) return;
+  if(quiz.sel[idx]===null){showToast('Pilih jawaban terlebih dahulu!');return;}
+  const item=quiz.data[idx];
+  const fb=document.getElementById(`fb_${idx}`);
+  const bc=document.getElementById(`bc_${idx}`);
+  const bn=document.getElementById(`bn_${idx}`);
+  const ok=quiz.sel[idx]===item.ans;
+  if(ok){
+    quiz.done[idx]=true;quiz.ok[idx]=true;
+    item.opts.forEach((_,oi)=>{const l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.querySelector('input').disabled=true;if(oi===item.ans)l.classList.add('correct');}});
+    for(let d=0;d<3;d++){const dot=document.getElementById(`qdot_${idx}_${d}`);if(dot&&d<quiz.att[idx]+1) dot.style.background='#28a745';}
+    fb.className='fb-box fb-correct show';fb.innerHTML=`<strong>✅ Jawaban Benar!</strong> ${item.ok}`;
+    bc.style.display='none';bn.style.display='inline-block';
+  } else {
+    quiz.att[idx]++;
+    const dot=document.getElementById(`qdot_${idx}_${quiz.att[idx]-1}`);if(dot) dot.style.background='#dc3545';
+    const wl=document.getElementById(`opt_${idx}_${quiz.sel[idx]}`);
+    if(wl){wl.classList.add('wrong');setTimeout(()=>wl.classList.remove('wrong'),700);wl.querySelector('input').checked=false;}
+    quiz.sel[idx]=null;
+    if(quiz.att[idx]>=3){
+      quiz.done[idx]=true;
+      item.opts.forEach((_,oi)=>{const l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.querySelector('input').disabled=true;if(oi===item.ans)l.classList.add('correct');}});
+      fb.className='fb-box fb-exhausted show';fb.innerHTML=`<strong>❌ Jawaban Salah.</strong> ${item.fb[2]}<br><span style="font-weight:800;color:#1a6496;display:inline-block;margin-top:2px;">Jawaban benar: ${item.opts[item.ans]}</span>`;
+      bc.style.display='none';bn.style.display='inline-block';
+    } else {
+      fb.className='fb-box fb-wrong show';fb.innerHTML=`<strong>❌ Jawaban Salah.</strong> ${item.fb[quiz.att[idx]-1]}`;
+    }
+  }
+  updateQProg();
+}
+function nextQ(idx){
+  const nxt=idx+1;
+  if(nxt>=quiz.data.length){showScore();return;}
+  document.getElementById(`qc_${idx}`).classList.remove('active');
+  document.getElementById(`qc_${nxt}`).classList.add('active');
+  // scroll ke atas panel quiz
+  const qp=document.getElementById('quizPage');if(qp) qp.scrollTop=0;
+  window.scrollTo({top:0,behavior:'smooth'});
+  quiz.cur=nxt;updateQProg();
+}
+function updateQProg(){
+  const done=quiz.done.filter(Boolean).length;
+  const bar=document.getElementById('qpbAll');const lbl=document.getElementById('qplAll');
+  if(bar) bar.style.width=(done/TOTAL_SOAL*100)+'%';
+  if(lbl) lbl.textContent=done<TOTAL_SOAL?`Soal ${quiz.cur+1} dari ${TOTAL_SOAL}`:'Semua soal selesai! ✅';
+}
+/* Mapping soal ke bab: soal 0-4=Bab1, 5-9=Bab2, 10-16=Bab3, 17-19=Bab4 */
+const BAB_INFO=[
+  {nama:'Bab 1 – Kestabilan Unsur',      soalIdx:[0,1,2,3,4],      subBab:0},
+  {nama:'Bab 2 – Ikatan Ion',             soalIdx:[5,6,7,8,9],      subBab:1},
+  {nama:'Bab 3 – Ikatan Kovalen',         soalIdx:[10,11,12,13,14,15,16], subBab:2},
+  {nama:'Bab 4 – Ikatan Logam',           soalIdx:[17,18,19],       subBab:3},
+];
+
+function showScore(){
+  const score=quiz.ok.filter(Boolean).length;
+  const total=TOTAL_SOAL;
+  const pct=Math.round(score/total*100);
+  const panel=document.getElementById('scorePanAll');
+  if(!panel) return;
+  panel.classList.add('show');
+
+  const lulus=pct>=80;
+  const snEl=document.getElementById('scoreNumAll');
+  snEl.textContent=`${score} / ${total}  (${pct}%)`;
+  snEl.style.color=lulus?'#2ecc71':'#e74c3c';
+
+  // Hitung rekap per bab
+  const rekapData=BAB_INFO.map(bab=>{
+    const total=bab.soalIdx.length;
+    const benar=bab.soalIdx.filter(i=>quiz.ok[i]).length;
+    return{nama:bab.nama, benar, total, subBab:bab.subBab};
+  });
+
+  // Bab yang perlu dipelajari ulang (< 80% atau < total)
+  const perluUlang=rekapData.filter(b=>(b.benar/b.total)<0.8);
+
+  // Bangun HTML rekap
+  let rekapHTML=`
+    <div class="rekap-wrap">
+      <div class="rekap-title">📊 Rekap Penguasaan Materi per Bab</div>
+      <table class="rekap-table">
+        <thead><tr><th>Materi</th><th>Hasil</th></tr></thead>
+        <tbody>`;
+
+  rekapData.forEach(b=>{
+    const pctB=Math.round(b.benar/b.total*100);
+    const cls=pctB>=80?'ok':pctB>=60?'warn':'bad';
+    const ikon=pctB>=80?'✅':pctB>=60?'⚠️':'❌';
+    rekapHTML+=`<tr>
+      <td>${b.nama}</td>
+      <td>
+        <span class="rekap-score ${cls}">${ikon} ${b.benar}/${b.total}</span>
+        <span class="rekap-bar"><span class="rekap-bar-fill ${cls}" style="width:${pctB}%"></span></span>
+      </td>
+    </tr>`;
+  });
+
+  rekapHTML+=`</tbody></table>`;
+
+  // Rekomendasi
+  if(perluUlang.length>0){
+    const daftarBab=perluUlang.map(b=>`<b>${b.nama}</b>`).join(', ');
+    rekapHTML+=`<div class="rekomendasi-box">
+      <div class="rekomendasi-title">💡 Rekomendasi Belajar</div>
+      <div class="rekomendasi-list">Materi yang disarankan untuk dipelajari kembali:<br>${daftarBab},<br>karena masih terdapat beberapa konsep yang belum dikuasai.</div>
+    </div>`;
+  } else {
+    rekapHTML+=`<div class="rekomendasi-box" style="background:rgba(46,204,113,.13);border-color:rgba(46,204,113,.3);">
+      <div class="rekomendasi-title" style="color:#2ecc71;">🎉 Penguasaan Materi Sempurna!</div>
+      <div class="rekomendasi-list" style="color:#a9f0c8;">Anda telah menguasai semua materi dengan baik. Pertahankan semangat belajar Anda!</div>
+    </div>`;
+  }
+  rekapHTML+=`</div>`;
+
+  // Pesan lulus/tidak lulus
+  const msgEl=document.getElementById('scoreMsgAll');
+  if(lulus){
+    msgEl.innerHTML=`<div class="hasil-lulus">
+      <span class="hasil-emoji">🎓</span>
+      <span class="hasil-teks">Selamat! Anda telah menyelesaikan pembelajaran.</span>
+      <span class="hasil-sub">Nilai Anda ${pct}% ≥ 80 — Anda dinyatakan <b>LULUS</b> evaluasi akhir Ikatan Kimia.</span>
+    </div>${rekapHTML}`;
+  } else {
+    const saranBab=perluUlang.map(b=>`Sub Bab ${b.subBab+1}`).join(', ');
+    msgEl.innerHTML=`<div class="hasil-gagal">
+      <span class="hasil-emoji">📚</span>
+      <span class="hasil-teks">Belum mencapai nilai minimum.</span>
+      <span class="hasil-sub">Nilai Anda ${pct}% &lt; 80 — Silakan pelajari kembali ${saranBab} dan ulangi evaluasi.</span>
+    </div>${rekapHTML}`;
+  }
+
+  const rst=document.getElementById('btnRstAll');
+  if(rst){
+    rst.textContent=lulus?'🔄 Kerjakan Ulang':'🔄 Ulangi Evaluasi';
+    rst.addEventListener('click',resetQuiz,{once:true});
+  }
+  const qpb=document.getElementById('qpbAll');if(qpb) qpb.style.width='100%';
+  showToast(lulus?'🎓 Evaluasi selesai — Anda LULUS!':'📚 Evaluasi selesai — Pelajari ulang ya!');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resetQuiz(){
+  quiz.att=new Array(TOTAL_SOAL).fill(0);quiz.done=new Array(TOTAL_SOAL).fill(false);
+  quiz.ok=new Array(TOTAL_SOAL).fill(false);quiz.sel=new Array(TOTAL_SOAL).fill(null);quiz.cur=0;
+  quiz.data.forEach((_,idx)=>{
+    const c=document.getElementById(`qc_${idx}`);if(c) c.classList.toggle('active',idx===0);
+    _.opts.forEach((_,oi)=>{const l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.classList.remove('correct','wrong');l.querySelector('input').checked=false;l.querySelector('input').disabled=false;}});
+    for(let d=0;d<3;d++){const dot=document.getElementById(`qdot_${idx}_${d}`);if(dot) dot.style.background='white';}
+    const fb=document.getElementById(`fb_${idx}`);if(fb){fb.className='fb-box';fb.innerHTML='';}
+    const bc=document.getElementById(`bc_${idx}`);if(bc) bc.style.display='inline-block';
+    const bn=document.getElementById(`bn_${idx}`);if(bn) bn.style.display='none';
+  });
+  // Bersihkan rekap dan pesan hasil
+  const msgEl=document.getElementById('scoreMsgAll');if(msgEl) msgEl.innerHTML='';
+  const snEl=document.getElementById('scoreNumAll');if(snEl){snEl.textContent=`0/${TOTAL_SOAL}`;snEl.style.color='#aed6f1';}
+  const sp=document.getElementById('scorePanAll');if(sp) sp.classList.remove('show');
+  const rst=document.getElementById('btnRstAll');if(rst) rst.addEventListener('click',resetQuiz,{once:true});
+  updateQProg();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ZOOM — 0% = normal (scale 1.0), negatif = perkecil, positif = perbesar */
+let zoomLevel=1.0;
+const ZOOM_MIN=0.5, ZOOM_MAX=2.0, ZOOM_STEP=0.1;
+
+/* SINGLE PAGE MODE */
+let singlePage = window.innerWidth <= 640; // otomatis HP = 1 halaman
+
+function togglePageView(){
+  // Simpan index halaman yang sedang tampil sebelum ganti mode
+  const[li,ri]=SPREADS[curSpread];
+  const curPageIdx = ri!==null ? ri : (li!==null ? li : 0);
+
+  singlePage=!singlePage;
+  SPREADS=buildSpreads(PAGES, singlePage);
+  TOTAL=SPREADS.length;
+
+  // Cari spread yang mengandung halaman yang sama
+  curSpread=0;
+  for(let s=0;s<SPREADS.length;s++){
+    const[l,r]=SPREADS[s];
+    if(r===curPageIdx||l===curPageIdx){curSpread=s;break;}
+  }
+
+  updateViewToggleBtn();
+  renderBook();
+  showToast(singlePage?'📄 Tampilan 1 Halaman':'📖 Tampilan 2 Halaman (Buku)');
+}
+
+function updateViewToggleBtn(){
+  const btn=document.getElementById('viewToggleBtn');
+  if(!btn) return;
+  if(singlePage){
+    btn.textContent='📖 2 Hal.';
+    btn.title='Ganti ke tampilan buku (2 halaman)';
+    btn.classList.remove('active');
+  } else {
+    btn.textContent='📄 1 Hal.';
+    btn.title='Ganti ke tampilan 1 halaman';
+    btn.classList.add('active');
+  }
+}
+
+function changeZoom(delta){
+  zoomLevel=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,Math.round((zoomLevel+delta)*10)/10));
+  applyZoom();
+}
+function resetZoom(){zoomLevel=1.0;applyZoom();}
+function applyZoom(){
+  const bc=document.getElementById('bookContainer');
+  if(bc){
+    bc.style.transform=`scale(${zoomLevel})`;
+    bc.style.transformOrigin='top center';
+    /* update margin agar ruang buku tidak collapse saat zoom in */
+    const bw=bc.querySelector('.book-wrap');
+    if(bw){
+      const rect=bw.getBoundingClientRect();
+      const scaledH=rect.height; // sudah ter-scale
+      bc.style.marginBottom=`${Math.max(0,(scaledH - bw.offsetHeight))}px`;
+    }
+  }
+  /* Posisikan nav btn relatif terhadap buku yang sudah di-scale */
+  _repositionNav();
+  const val=document.getElementById('zoomVal');
+  if(val) val.textContent=(zoomLevel>=1?'+':'')+Math.round((zoomLevel-1)*100)+'%';
+  const btnOut=document.getElementById('zoomOut');
+  const btnIn=document.getElementById('zoomIn');
+  if(btnOut) btnOut.disabled=zoomLevel<=ZOOM_MIN;
+  if(btnIn)  btnIn.disabled=zoomLevel>=ZOOM_MAX;
+}
+function _repositionNav(){
+  const bc=document.getElementById('bookContainer');
+  if(!bc||!prevBtn||!nextBtn) return;
+  const bcRect=bc.getBoundingClientRect();
+  const sceneRect=document.getElementById('scene').getBoundingClientRect();
+  /* offset relatif ke scene */
+  const leftEdge=bcRect.left - sceneRect.left;
+  const rightEdge=bcRect.right - sceneRect.left;
+  const midY=bcRect.top - sceneRect.top + bcRect.height/2;
+  prevBtn.style.cssText=`position:absolute;top:${midY}px;left:${leftEdge-52}px;transform:translateY(-50%);`;
+  nextBtn.style.cssText=`position:absolute;top:${midY}px;left:${rightEdge+8}px;transform:translateY(-50%);`;
+}
+
+/* PAGE SIZE */
+function pageSize(){
+  if(singlePage){
+    // Single page: 1 halaman, lebar penuh (minus padding nav)
+    const maxW=Math.min(window.innerWidth-100, 480);
+    const maxH=window.innerHeight*0.72;
+    let w=maxW, h=Math.round(w*1.4142);
+    if(h>maxH){h=Math.floor(maxH);w=Math.round(h/1.4142);}
+    return{w:Math.max(w,240),h:Math.max(h,340)};
+  }
+  // Double page: dua halaman berdampingan
+  const maxW=Math.min((window.innerWidth-160)/2,460);
+  const maxH=window.innerHeight*0.72;
+  let w=maxW,h=Math.round(w*1.4142);
+  if(h>maxH){h=Math.floor(maxH);w=Math.round(h/1.4142);}
+  return{w:Math.max(w,190),h:Math.max(h,269)};
+}
+
+/* MAKE FACE */
+function makeFace(pi,w,h){
+  const face=document.createElement('div');
+  face.className='pface';
+  face.style.cssText=`width:${w}px;height:${h}px;`;
+  if(pi===null){
+    const b=document.createElement('div');b.className='pface-blank';face.appendChild(b);
+  } else {
+    const p=PAGES[pi];
+    if(p.type==='img'){
+      const img=document.createElement('img');
+      img.alt='Halaman '+(pi+1);
+      img.decoding='async';
+      img.src=p.src;
+      face.appendChild(img);
+    } else if(p.type==='video'){
+      // Bungkus video dalam container agar mudah dikontrol
+      const vWrap=document.createElement('div');
+      vWrap.setAttribute('data-video-wrap','1');
+      vWrap.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;z-index:5;pointer-events:auto;';
+
+      const v=document.createElement('video');
+      v.controls=true;
+      v.preload='none';
+      v.setAttribute('playsinline','');
+      v.setAttribute('webkit-playsinline','');
+      v.setAttribute('x-webkit-airplay','allow');
+      // Jangan pakai inline style yang menimpa CSS class
+      v.style.cssText='width:100%;height:100%;display:block;';
+      v.src=p.src;
+
+      // Fallback: tampilkan pesan jika video tidak bisa diload
+      v.addEventListener('error',()=>{
+        vWrap.innerHTML='<div style="color:#fff;text-align:center;padding:20px;font-size:.8rem;">⚠️ Video tidak dapat dimuat.<br>Pastikan file <b>'+p.src+'</b><br>ada di folder yang sama.</div>';
+      });
+
+      vWrap.appendChild(v);
+      face.appendChild(vWrap);
+      // Override pface style agar tidak menutupi video
+      face.style.cssText=face.style.cssText+'pointer-events:auto;background:#000;';
+    }
+  }
+  return face;
+}
+
+/* PAUSE semua video */
+function pauseAllVideos(){
+  document.querySelectorAll('video').forEach(v=>{
+    try{ if(!v.paused) v.pause(); }catch(e){}
+  });
+}
+
+/* DRAG ZONE — pageIdx: index halaman yang ditampilkan di sisi ini */
+function makeDZ(side, w, h, pageIdx){
+  // Jika halaman ini video: kembalikan div kosong tanpa pointer-events
+  if(pageIdx!==null && PAGES[pageIdx] && PAGES[pageIdx].type==='video'){
+    const empty=document.createElement('div');
+    empty.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:0;';
+    return empty;
+  }
+  const dz=document.createElement('div');dz.className='drag-zone';dz.style.cssText=`width:${w}px;height:56px;bottom:0;left:0;position:absolute;z-index:50;`;
+  const peel=document.createElement('div');peel.className=`peel peel-${side==='right'?'r':'l'}`;dz.appendChild(peel);
+  const hint=document.createElement('span');hint.className=`dz-hint dz-hint-${side==='right'?'r':'l'}`;hint.textContent=side==='right'?'Berikutnya':'Sebelumnya';dz.appendChild(hint);
+  let downX=null;
+  dz.addEventListener('mousedown',e=>{downX=e.clientX;dragDX=0;e.preventDefault();});
+  dz.addEventListener('mousemove',e=>{if(downX!==null) dragDX=e.clientX-downX;});
+  dz.addEventListener('mouseup',e=>{if(downX===null) return;const dx=e.clientX-downX;downX=null;if(Math.abs(dx)>=10){if(dx<0&&side==='right')tryFlip('fwd');if(dx>0&&side==='left')tryFlip('back');dragDX=0;return;}dragDX=0;if(side==='right')tryFlip('fwd');else tryFlip('back');});
+  return dz;
+}
+
+function tryFlip(dir){
+  if(flipping) return;
+  if(dir==='fwd'&&curSpread>=TOTAL-1) return;
+  if(dir==='back'&&curSpread<=0) return;
+  pauseAllVideos();
+  doFlip(dir);
+}
+
+function doFlip(dir){
+  flipping=true;
+  const nextSpread=dir==='fwd'?curSpread+1:curSpread-1;
+
+  // Track progress setelah flip
+  const[nl,nr]=SPREADS[nextSpread];
+  const nextPageIdx=nr!==null?nr:(nl!==null?nl:0);
+  if(curSubBab>=0) trackProgress(curSubBab, nextPageIdx);
+  const{w,h}=pageSize();
+  const from=curSpread;
+  const to=dir==='fwd'?curSpread+1:curSpread-1;
+  const[cL,cR]=SPREADS[from];
+  const[nL,nR]=SPREADS[to];
+
+  // Buat flip card dengan animasi slide sederhana (ringan di iOS)
+  const card=document.createElement('div');
+  card.className='flip-card';
+  card.style.cssText=`width:${w}px;height:${h}px;`;
+
+  const front=document.createElement('div');front.className='fc-face fc-front';front.style.cssText=`width:${w}px;height:${h}px;`;
+  const back=document.createElement('div');back.className='fc-face fc-back';back.style.cssText=`width:${w}px;height:${h}px;`;
+  const curl=document.createElement('div');curl.className='fc-curl';
+
+  const dur=isIOS?180:parseInt(getComputedStyle(document.documentElement).getPropertyValue('--flip-dur'))*1000||450;
+
+  if(dir==='fwd'){
+    const ff=makeFace(cR,w,h);ff.classList.add('vis');front.appendChild(ff);
+    const bf=makeFace(nL,w,h);bf.classList.add('vis');back.appendChild(bf);
+    front.appendChild(curl);
+    const lo=(cL===null)?0:w+7;
+    card.style.left=lo+'px';card.style.top='0';
+    // Mulai dari posisi normal, slide ke kiri
+    card.style.transform='translateX(0)';
+    card.style.opacity='1';
+    if(curRF) curRF.classList.remove('vis');
+  } else {
+    const ff=makeFace(nR,w,h);ff.classList.add('vis');front.appendChild(ff);
+    const bf=makeFace(cL,w,h);bf.classList.add('vis');back.appendChild(bf);
+    front.appendChild(curl);
+    card.style.left='0';card.style.top='0';
+    card.style.transform='translateX(0)';
+    card.style.opacity='1';
+    if(curLF) curLF.classList.remove('vis');
+  }
+
+  card.appendChild(front);card.appendChild(back);bookWrapEl.appendChild(card);
+
+  // Animasi: front fade out, back fade in
+  front.style.transition=`opacity ${dur}ms ease`;
+  back.style.transition=`opacity ${dur}ms ease`;
+  back.style.opacity='0';
+
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      card.classList.add('going');
+      front.style.opacity='0';
+      back.style.opacity='1';
+    });
+  });
+
+  setTimeout(()=>{
+    card.remove();
+    curSpread=to;
+    flipping=false;
+    renderBook();
+  }, dur+30);
+}
+
+/* TOUCH */
+function setupTouchSwipe(){
+  if(!bookWrapEl) return;
+  let tx=null,ty=null;
+  bookWrapEl.addEventListener('touchstart',e=>{
+    // jangan intercept jika sedang interaksi dengan video
+    if(e.target.closest('video')) return;
+    tx=e.touches[0].clientX;ty=e.touches[0].clientY;
+  },{passive:true});
+  bookWrapEl.addEventListener('touchend',e=>{
+    if(tx===null) return;
+    const dx=e.changedTouches[0].clientX-tx;const dy=e.changedTouches[0].clientY-ty;
+    tx=null;ty=null;
+    if(Math.abs(dx)<40||Math.abs(dx)<Math.abs(dy)) return;
+    if(dx<0)tryFlip('fwd');else tryFlip('back');
+  },{passive:true});
+
+  const skipTags=['input','label','button','video','select','textarea','source'];
+  function isVideoArea(e){
+    return e.target.closest('video')!==null ||
+           e.target.closest('[data-video-wrap]')!==null ||
+           skipTags.includes(e.target.tagName.toLowerCase());
+  }
+  if(leftSideEl) leftSideEl.addEventListener('click',e=>{
+    if(isVideoArea(e)) return;
+    if(e.target.closest('.qwrap')) return;
+    tryFlip('back');
+  });
+  if(rightSideEl) rightSideEl.addEventListener('click',e=>{
+    if(isVideoArea(e)) return;
+    if(e.target.closest('.qwrap')) return;
+    tryFlip('fwd');
+  });
+}
+document.addEventListener('keydown',e=>{if(activeView!=='flipbook') return;if(e.key==='ArrowRight'||e.key==='ArrowDown')tryFlip('fwd');if(e.key==='ArrowLeft'||e.key==='ArrowUp')tryFlip('back');});
+
+/* RENDER BOOK */
+function renderBook(){
+  const{w,h}=pageSize();const scene=document.getElementById('scene');scene.innerHTML='';
+
+  /* bookContainer: hanya ini yang di-scale (buku + tombol nav) */
+  const bookContainer=document.createElement('div');
+  bookContainer.id='bookContainer';
+  bookContainer.style.cssText=`position:relative;display:inline-flex;align-items:center;justify-content:center;`;
+
+  bookWrapEl=document.createElement('div');bookWrapEl.className='book-wrap';
+  const[li,ri]=SPREADS[curSpread];const isCover=li===null;const isSingleL=ri===null;
+  if(isCover){
+    rightSideEl=document.createElement('div');rightSideEl.className='bside bside-right';rightSideEl.style.cssText=`width:${w}px;height:${h}px;border-radius:3px;box-shadow:8px 0 30px rgba(0,0,0,.3),-2px 0 8px rgba(0,0,0,.1);`;
+    curRF=makeFace(ri,w,h);curRF.classList.add('vis');rightSideEl.appendChild(curRF);rightSideEl.appendChild(makeDZ('right',w,h,ri));leftSideEl=null;curLF=null;bookWrapEl.appendChild(rightSideEl);
+  } else if(isSingleL){
+    leftSideEl=document.createElement('div');leftSideEl.className='bside bside-left';leftSideEl.style.cssText=`width:${w}px;height:${h}px;border-radius:3px;box-shadow:-8px 0 30px rgba(0,0,0,.3),2px 0 8px rgba(0,0,0,.1);`;
+    curLF=makeFace(li,w,h);curLF.classList.add('vis');leftSideEl.appendChild(curLF);leftSideEl.appendChild(makeDZ('left',w,h,li));rightSideEl=null;curRF=null;bookWrapEl.appendChild(leftSideEl);
+  } else {
+    leftSideEl=document.createElement('div');leftSideEl.className='bside bside-left';leftSideEl.style.cssText=`width:${w}px;height:${h}px;`;
+    const spEl=document.createElement('div');spEl.className='spine';spEl.style.height=h+'px';
+    rightSideEl=document.createElement('div');rightSideEl.className='bside bside-right';rightSideEl.style.cssText=`width:${w}px;height:${h}px;`;
+    curLF=makeFace(li,w,h);curLF.classList.add('vis');curRF=makeFace(ri,w,h);curRF.classList.add('vis');
+    leftSideEl.appendChild(curLF);leftSideEl.appendChild(makeDZ('left',w,h,li));rightSideEl.appendChild(curRF);rightSideEl.appendChild(makeDZ('right',w,h,ri));
+    bookWrapEl.appendChild(leftSideEl);bookWrapEl.appendChild(spEl);bookWrapEl.appendChild(rightSideEl);
+  }
+
+  /* tombol nav: absolute relatif ke bookContainer, TIDAK ikut scale */
+  prevBtn=document.createElement('button');prevBtn.className='nav-arr nav-prev';prevBtn.innerHTML='&#9664;';prevBtn.title='Sebelumnya';prevBtn.addEventListener('click',()=>tryFlip('back'));
+  nextBtn=document.createElement('button');nextBtn.className='nav-arr nav-next';nextBtn.innerHTML='&#9654;';nextBtn.title='Berikutnya';nextBtn.addEventListener('click',()=>tryFlip('fwd'));
+
+  bookContainer.appendChild(bookWrapEl);
+  scene.appendChild(bookContainer);
+  /* nav ditaruh di scene (luar bookContainer) agar tidak ikut scale */
+  scene.appendChild(prevBtn);
+  scene.appendChild(nextBtn);
+
+  setupTouchSwipe();refreshArrows();refreshLabel();buildDots();applyZoom();updateViewToggleBtn();
+}
+
+/* UI */
+function refreshArrows(){if(!prevBtn||!nextBtn) return;prevBtn.disabled=curSpread===0;nextBtn.disabled=curSpread>=TOTAL-1;}
+function refreshLabel(){
+  const el=document.getElementById('pageLabel');const ch=document.getElementById('chapterLabel');
+  if(el) el.textContent=curSpread===0?'Cover':`Halaman ${curSpread} / ${TOTAL-1}`;
+  if(ch) ch.textContent=`Sub Bab ${curSubBab+1}`;
+}
+function buildDots(){
+  const row=document.getElementById('dotsRow');row.innerHTML='';
+  for(let s=0;s<TOTAL;s++){const d=document.createElement('div');d.className='dot'+(s===curSpread?' on':'');d.title=`Halaman ${s+1}`;const _s=s;d.addEventListener('click',()=>{if(flipping||_s===curSpread) return;curSpread=_s;renderBook();});row.appendChild(d);}
+}
+
+/* TOAST */
+let toastT=null;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastT) clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800);}
+
+/* TIMER */
+let secs=0;
+setInterval(()=>{secs++;const h=String(Math.floor(secs/3600)).padStart(2,'0');const m=String(Math.floor((secs%3600)/60)).padStart(2,'0');const s=String(secs%60).padStart(2,'0');document.getElementById('timerVal').textContent=`${h}:${m}:${s}`;},1000);
+
+/* MODAL CARA MENGGUNAKAN */
+function openCara(){document.getElementById('caraModal').classList.add('show');}
+function closeCara(e){
+  if(!e||e.target===document.getElementById('caraModal'))
+    document.getElementById('caraModal').classList.remove('show');
+}
+
+/* INIT */
+window.addEventListener('resize',()=>{
+  if(activeView==='flipbook'&&!flipping){
+    // Auto update single/double saat resize (kecuali user sudah toggle manual)
+    const autoSingle = window.innerWidth <= 640;
+    if(autoSingle !== singlePage){
+      singlePage = autoSingle;
+      SPREADS=buildSpreads(PAGES, singlePage);
+      TOTAL=SPREADS.length;
+      curSpread=0;
+      updateViewToggleBtn();
+    }
+    renderBook();
+  }
+});
+
+/* Reset zoom saat buka sub bab baru */
+const _origShowSub=window.openSubBab;
+document.querySelectorAll('.menu-card').forEach(card=>{
+  card.addEventListener('click',()=>{zoomLevel=1.0;});
+});
+
+/* Keyboard zoom: + perbesar, - perkecil, 0 reset ke normal (0%) */
+document.addEventListener('keydown',e=>{
+  if(activeView!=='flipbook') return;
+  if(e.key==='+'||e.key==='=') changeZoom(ZOOM_STEP);
+  if(e.key==='-'||e.key==='_') changeZoom(-ZOOM_STEP);
+  if(e.key==='0') resetZoom();
+});
+
+/* Pinch-to-zoom (mobile) */
+(function(){
+  let initDist=null,initZoom=1;
+  document.addEventListener('touchstart',e=>{
+    if(activeView!=='flipbook') return;
+    if(e.touches.length===2){
+      initDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      initZoom=zoomLevel;
+    }
+  },{passive:true});
+  document.addEventListener('touchmove',e=>{
+    if(activeView!=='flipbook'||!initDist||e.touches.length!==2) return;
+    const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    const ratio=dist/initDist;
+    zoomLevel=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,Math.round(initZoom*ratio*10)/10));
+    applyZoom(); // hanya book-wrap yang discale, dots & footer tidak terpengaruh
+  },{passive:true});
+  document.addEventListener('touchend',()=>{initDist=null;},{passive:true});
+})();
+
+showView('menu');
+updateMenuProgress();
+</script>
+</body>
+</html>
