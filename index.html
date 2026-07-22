@@ -105,6 +105,48 @@ header{position:relative;z-index:300;background:linear-gradient(95deg,#060f18 0%
 .score-lanjut-btn{display:inline-block;background:var(--b3);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-size:.75rem;font-weight:800;cursor:pointer;margin-top:8px;transition:background .15s;}
 .score-lanjut-btn:hover{background:var(--b2);}
 .rekap-wrap{width:100%;margin:16px 0 0;display:flex;flex-direction:column;gap:8px;}
+/* ── PAGE IMAGE ZOOM ── */
+.pz-hint{position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.45);color:#fff;font-size:.52rem;font-weight:700;padding:3px 7px;border-radius:99px;pointer-events:none;z-index:30;opacity:0;transition:opacity .3s;letter-spacing:.3px;}
+.pface:hover .pz-hint,.pface.vis .pz-hint{opacity:.8;}
+.pz-overlay{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.92);opacity:0;pointer-events:none;transition:opacity .22s;}
+.pz-overlay.show{opacity:1;pointer-events:all;}
+.pz-container{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;}
+.pz-inner{transform-origin:center center;transition:transform .22s ease;display:flex;align-items:center;justify-content:center;}
+.pz-inner.no-tr{transition:none;}
+.pz-inner img{max-width:90vw;max-height:90vh;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none;border-radius:2px;}
+.pz-controls{position:fixed;top:14px;right:14px;z-index:9001;display:flex;gap:8px;align-items:center;}
+.pz-btn{width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.18);color:#fff;font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+.pz-btn:hover{background:rgba(255,255,255,.32);}
+.pz-btn.close-btn{background:rgba(220,50,50,.7);font-size:1.2rem;}
+.pz-btn.close-btn:hover{background:rgba(220,50,50,.9);}
+.pz-scale{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.13);color:#fff;font-size:.7rem;font-weight:800;padding:5px 18px;border-radius:99px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:9001;pointer-events:none;letter-spacing:.5px;}
+.pz-tip{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.45);font-size:.58rem;text-align:center;z-index:9001;pointer-events:none;white-space:nowrap;}
+/* ── CHECKPOINT REFLEKSI ── */
+.cp-wrap{position:absolute;inset:0;overflow-y:auto;background:linear-gradient(160deg,#0d2d45 0%,#0f3d5c 60%,#1a5276 100%);display:flex;align-items:flex-start;justify-content:center;padding:14px 10px 20px;pointer-events:auto;z-index:5;}
+.cp-card{background:rgba(255,255,255,.07);border:1.5px solid rgba(93,173,226,.3);border-radius:14px;padding:16px 14px 14px;width:100%;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.35);}
+.cp-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.cp-icon{font-size:1.2rem;flex-shrink:0;}
+.cp-title{font-size:.72rem;font-weight:900;color:var(--b5);letter-spacing:.3px;line-height:1.3;}
+.cp-sub{font-size:.62rem;color:var(--b4);margin-top:1px;}
+.cp-divider{border:none;border-top:1px solid rgba(93,173,226,.2);margin:8px 0;}
+.cp-intro{font-size:.62rem;color:var(--b5);font-weight:700;margin-bottom:8px;}
+.cp-items{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.cp-item{display:flex;align-items:flex-start;gap:8px;cursor:pointer;}
+.cp-item input[type=checkbox]{width:16px;height:16px;flex-shrink:0;margin-top:1px;accent-color:#2980b9;cursor:pointer;}
+.cp-item label{font-size:.62rem;color:rgba(255,255,255,.85);line-height:1.5;cursor:pointer;}
+.cp-item.checked label{color:#7dcea0;text-decoration:line-through;opacity:.8;}
+.cp-btn{width:100%;background:linear-gradient(90deg,var(--b3),var(--b2));border:none;border-radius:10px;padding:10px;font-size:.7rem;font-weight:800;color:#fff;cursor:pointer;transition:opacity .18s,transform .15s;letter-spacing:.3px;}
+.cp-btn:hover{opacity:.88;transform:translateY(-1px);}
+.cp-feedback{border-radius:10px;padding:10px 12px;margin-top:10px;font-size:.62rem;line-height:1.6;display:none;}
+.cp-feedback.show{display:block;}
+.cp-feedback.ok{background:rgba(39,174,96,.18);border:1px solid rgba(39,174,96,.35);color:#a9dfb8;}
+.cp-feedback.ok .cp-fb-title{color:#2ecc71;font-weight:900;font-size:.68rem;margin-bottom:3px;}
+.cp-feedback.belum{background:rgba(243,156,18,.15);border:1px solid rgba(243,156,18,.3);color:#f9e4b7;}
+.cp-feedback.belum .cp-fb-title{color:#f39c12;font-weight:900;font-size:.68rem;margin-bottom:3px;}
+.cp-progress-row{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.cp-progress-bar{flex:1;height:5px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;}
+.cp-progress-fill{height:100%;background:linear-gradient(90deg,#3498db,#2ecc71);border-radius:99px;transition:width .3s ease;}
+.cp-progress-txt{font-size:.58rem;color:var(--b4);font-weight:700;white-space:nowrap;}
 .rekap-title{font-size:.75rem;font-weight:800;color:var(--b5);letter-spacing:.5px;margin-bottom:2px;text-align:center;}
 .rekap-table{width:100%;border-collapse:collapse;font-size:.72rem;}
 .rekap-table th{background:rgba(255,255,255,.1);color:var(--b5);font-weight:700;padding:7px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,.12);}
@@ -408,6 +450,23 @@ footer{position:relative;z-index:1;text-align:center;padding:8px;font-size:.6rem
 </div>
 
 <!-- HALAMAN RIWAYAT -->
+<!-- PAGE ZOOM OVERLAY -->
+<div id="pzOverlay" class="pz-overlay" onclick="pzClose()">
+  <div class="pz-container" id="pzContainer">
+    <div class="pz-inner" id="pzInner">
+      <img id="pzImg" src="" alt="Zoom halaman">
+    </div>
+  </div>
+  <div class="pz-controls" onclick="event.stopPropagation()">
+    <button class="pz-btn" onclick="pzZoom(-0.25)" title="Perkecil">−</button>
+    <button class="pz-btn" onclick="pzReset()" title="Reset">⟳</button>
+    <button class="pz-btn" onclick="pzZoom(0.25)" title="Perbesar">+</button>
+    <button class="pz-btn close-btn" onclick="pzClose()" title="Tutup">✕</button>
+  </div>
+  <div class="pz-scale" id="pzScale">100%</div>
+  <div class="pz-tip" id="pzTip">Scroll/cubit untuk zoom · geser untuk pindah · double tap untuk zoom 2×</div>
+</div>
+
 <div id="riwayatPage">
   <div class="riwayat-header">
     <div class="riwayat-title">📈 Riwayat Evaluasi Akhir</div>
@@ -485,7 +544,7 @@ footer{position:relative;z-index:1;text-align:center;padding:8px;font-size:.6rem
 <script>
 /* DATA PAGES */
 const SUB_PAGES=[
-  /* Sub Bab 1: 1.png – 17.png, nomor 13 = 13.mp4 */
+  /* Sub Bab 1: 1.png – 17.png, video 13.mp4, checkpoint */
   [
     {type:'img',src:'1.png'},{type:'img',src:'2.png'},{type:'img',src:'3.png'},
     {type:'img',src:'4.png'},{type:'img',src:'5.png'},{type:'img',src:'6.png'},
@@ -494,16 +553,18 @@ const SUB_PAGES=[
     {type:'video',src:'13.mp4'},
     {type:'img',src:'14.png'},{type:'img',src:'15.png'},{type:'img',src:'16.png'},
     {type:'img',src:'17.png'},
+    {type:'checkpoint',bab:0},
   ],
-  /* Sub Bab 2: 18.png – 26.png, nomor 22 = 22.mp4 */
+  /* Sub Bab 2: 18.png – 26.png, video 22.mp4, checkpoint */
   [
     {type:'img',src:'18.png'},{type:'img',src:'19.png'},{type:'img',src:'20.png'},
     {type:'img',src:'21.png'},
     {type:'video',src:'22.mp4'},
     {type:'img',src:'23.png'},{type:'img',src:'24.png'},{type:'img',src:'25.png'},
     {type:'img',src:'26.png'},
+    {type:'checkpoint',bab:1},
   ],
-  /* Sub Bab 3: 27.png – 39.png, nomor 31 = 31.mp4 */
+  /* Sub Bab 3: 27.png – 39.png, video 31.mp4, checkpoint */
   [
     {type:'img',src:'27.png'},{type:'img',src:'28.png'},{type:'img',src:'29.png'},
     {type:'img',src:'30.png'},
@@ -511,8 +572,9 @@ const SUB_PAGES=[
     {type:'img',src:'32.png'},{type:'img',src:'33.png'},{type:'img',src:'34.png'},
     {type:'img',src:'35.png'},{type:'img',src:'36.png'},{type:'img',src:'37.png'},
     {type:'img',src:'38.png'},{type:'img',src:'39.png'},
+    {type:'checkpoint',bab:2},
   ],
-  /* Sub Bab 4: 40.png – 55.png, nomor 44 = 44.mp4 */
+  /* Sub Bab 4: 40.png – 55.png, video 44.mp4, checkpoint */
   [
     {type:'img',src:'40.png'},{type:'img',src:'41.png'},{type:'img',src:'42.png'},
     {type:'img',src:'43.png'},
@@ -521,6 +583,7 @@ const SUB_PAGES=[
     {type:'img',src:'48.png'},{type:'img',src:'49.png'},{type:'img',src:'50.png'},
     {type:'img',src:'51.png'},{type:'img',src:'52.png'},{type:'img',src:'53.png'},
     {type:'img',src:'54.png'},{type:'img',src:'55.png'},
+    {type:'checkpoint',bab:3},
   ],
 ];
 
@@ -528,12 +591,12 @@ function buildSpreads(pages, single){
   if(single){
     // 1 halaman per spread: gunakan [i, null] agar masuk branch isSingleL (kiri)
     // Halaman pertama tetap [null, 0] sebagai cover
-    const sp=[[null,0]];
+    let sp=[[null,0]];
     for(let i=1;i<pages.length;i++) sp.push([i,null]);
     return sp;
   }
   // 2 halaman: cover (null,0) lalu pasang (1,2),(3,4),...
-  const sp=[[null,0]];
+  let sp=[[null,0]];
   for(let i=1;i<pages.length;i+=2){
     if(i+1<pages.length) sp.push([i,i+1]); else sp.push([i,null]);
   }
@@ -814,12 +877,12 @@ let curSubBab=-1,PAGES=[],SPREADS=[],TOTAL=0,curSpread=0,flipping=false,dragDX=0
    PROGRESS & LOCK SYSTEM (localStorage)
    ═══════════════════════════════════════════ */
 const PROG_KEY='ikimia_progress_v1';
-const TOTAL_PAGES_PER_SUB=[17,9,13,16]; // jumlah halaman tiap sub bab
+const TOTAL_PAGES_PER_SUB=[18,10,14,17]; // +1 karena ada halaman checkpoint di akhir
 
 // Load progres dari localStorage
 function loadProgress(){
   try{
-    const raw=localStorage.getItem(PROG_KEY);
+    let raw=localStorage.getItem(PROG_KEY);
     if(raw) return JSON.parse(raw);
   }catch(e){}
   // Default: semua 0, sub bab 0 terbuka
@@ -834,14 +897,14 @@ function saveProgress(prog){
 // Cek apakah sub bab idx terbuka (unlocked)
 function isUnlocked(idx){
   if(idx===0) return true; // sub bab 1 selalu terbuka
-  const prog=loadProgress();
+  let prog=loadProgress();
   return prog.completed[idx-1]===true;
 }
 
 // Update progres saat membaca halaman
 function trackProgress(subIdx, pageIdx){
-  const prog=loadProgress();
-  const total=TOTAL_PAGES_PER_SUB[subIdx];
+  let prog=loadProgress();
+  let total=TOTAL_PAGES_PER_SUB[subIdx];
   // Simpan halaman terbuka terbanyak
   if(pageIdx > prog.maxPage[subIdx]){
     prog.maxPage[subIdx]=pageIdx;
@@ -856,24 +919,24 @@ function trackProgress(subIdx, pageIdx){
 
 // Hitung persentase progres
 function getProgressPct(subIdx){
-  const prog=loadProgress();
-  const total=TOTAL_PAGES_PER_SUB[subIdx];
+  let prog=loadProgress();
+  let total=TOTAL_PAGES_PER_SUB[subIdx];
   if(prog.completed[subIdx]) return 100;
   return Math.min(100, Math.round((prog.maxPage[subIdx]/(total-1))*100));
 }
 
 // Update tampilan progress bar & lock di semua card
 function updateMenuProgress(){
-  const prog=loadProgress();
+  let prog=loadProgress();
   for(let i=0;i<4;i++){
-    const pct=getProgressPct(i);
-    const unlocked=isUnlocked(i);
-    const completed=prog.completed[i];
+    let pct=getProgressPct(i);
+    let unlocked=isUnlocked(i);
+    let completed=prog.completed[i];
 
     // Progress bar
-    const bar=document.getElementById('prog-'+i);
-    const lbl=document.getElementById('prog-label-'+i);
-    const pctEl=document.getElementById('prog-pct-'+i);
+    let bar=document.getElementById('prog-'+i);
+    let lbl=document.getElementById('prog-label-'+i);
+    let pctEl=document.getElementById('prog-pct-'+i);
     if(bar) bar.style.width=pct+'%';
     if(pctEl) pctEl.textContent=pct+'%';
     if(lbl){
@@ -884,8 +947,8 @@ function updateMenuProgress(){
     }
 
     // Lock overlay
-    const lock=document.getElementById('lock-'+i);
-    const card=document.getElementById('card-'+i);
+    let lock=document.getElementById('lock-'+i);
+    let card=document.getElementById('card-'+i);
     if(lock) lock.style.display=unlocked?'none':'flex';
     if(card){
       if(unlocked) card.classList.remove('locked');
@@ -905,9 +968,165 @@ function tryOpenFlipbook(idx){
 
 // Ambil halaman terakhir yang dibaca untuk resume
 function getLastPage(subIdx){
-  const prog=loadProgress();
+  let prog=loadProgress();
   return prog.maxPage[subIdx]||0;
 }
+/* ═══════════════════════════════════════════
+   PAGE IMAGE ZOOM SYSTEM
+   ═══════════════════════════════════════════ */
+let pzScale=1, pzMinScale=0.5, pzMaxScale=5;
+let pzOffX=0, pzOffY=0;
+let pzDragging=false, pzDragStartX=0, pzDragStartY=0, pzDragOriginX=0, pzDragOriginY=0;
+let pzLastTap=0, pzPinchDist=null, pzPinchScale=1;
+
+function pzOpen(src){
+  let overlay=document.getElementById('pzOverlay');
+  let img=document.getElementById('pzImg');
+  img.src=src;
+  pzScale=1; pzOffX=0; pzOffY=0;
+  pzApplyTransform(true);
+  overlay.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function pzClose(){
+  let overlay=document.getElementById('pzOverlay');
+  overlay.classList.remove('show');
+  document.body.style.overflow='';
+  pzPinchDist=null;
+}
+
+function pzApplyTransform(transition){
+  let inner=document.getElementById('pzInner');
+  let scale=document.getElementById('pzScale');
+  if(!inner) return;
+  if(!transition) inner.classList.add('no-tr');
+  else inner.classList.remove('no-tr');
+  inner.style.transform=`translate(${pzOffX}px,${pzOffY}px) scale(${pzScale})`;
+  if(scale) scale.textContent=Math.round(pzScale*100)+'%';
+}
+
+function pzZoom(delta, cx, cy){
+  let overlay=document.getElementById('pzOverlay');
+  if(!overlay) return;
+  let rect=overlay.getBoundingClientRect();
+  let ox = cx!==undefined ? cx-rect.width/2  : 0;
+  let oy = cy!==undefined ? cy-rect.height/2 : 0;
+  let newScale=Math.min(pzMaxScale, Math.max(pzMinScale, pzScale+delta*pzScale));
+  let factor=newScale/pzScale;
+  pzOffX = ox + (pzOffX-ox)*factor;
+  pzOffY = oy + (pzOffY-oy)*factor;
+  pzScale=newScale;
+  pzApplyTransform(true);
+}
+
+function pzReset(){
+  pzScale=1; pzOffX=0; pzOffY=0;
+  pzApplyTransform(true);
+}
+
+// Mouse wheel zoom
+document.addEventListener('wheel', e=>{
+  let overlay=document.getElementById('pzOverlay');
+  if(!overlay||!overlay.classList.contains('show')) return;
+  e.preventDefault();
+  let rect=overlay.getBoundingClientRect();
+  let delta = e.deltaY>0 ? -0.15 : 0.15;
+  pzZoom(delta, e.clientX-rect.left, e.clientY-rect.top);
+},{passive:false});
+
+// Mouse drag
+document.addEventListener('mousedown', e=>{
+  let overlay=document.getElementById('pzOverlay');
+  if(!overlay||!overlay.classList.contains('show')) return;
+  if(e.target.closest('.pz-controls')||e.target.closest('.pz-btn')) return;
+  e.preventDefault();
+  pzDragging=true;
+  pzDragStartX=e.clientX; pzDragStartY=e.clientY;
+  pzDragOriginX=pzOffX;   pzDragOriginY=pzOffY;
+  document.getElementById('pzContainer').style.cursor='grabbing';
+});
+document.addEventListener('mousemove', e=>{
+  if(!pzDragging) return;
+  pzOffX=pzDragOriginX+(e.clientX-pzDragStartX);
+  pzOffY=pzDragOriginY+(e.clientY-pzDragStartY);
+  pzApplyTransform(false);
+});
+document.addEventListener('mouseup', ()=>{
+  if(!pzDragging) return;
+  pzDragging=false;
+  let c=document.getElementById('pzContainer');
+  if(c) c.style.cursor='';
+});
+
+// Touch: pinch zoom + drag + double tap
+document.addEventListener('touchstart', e=>{
+  let overlay=document.getElementById('pzOverlay');
+  if(!overlay||!overlay.classList.contains('show')) return;
+  if(e.target.closest('.pz-controls')) return;
+
+  if(e.touches.length===1){
+    // Double tap
+    let now=Date.now();
+    let t=e.touches[0];
+    let rect=overlay.getBoundingClientRect();
+    if(now-pzLastTap<300){
+      e.preventDefault();
+      if(pzScale>1.1){ pzReset(); }
+      else { pzZoom(1, t.clientX-rect.left, t.clientY-rect.top); }
+    }
+    pzLastTap=now;
+    pzDragStartX=t.clientX; pzDragStartY=t.clientY;
+    pzDragOriginX=pzOffX;   pzDragOriginY=pzOffY;
+    pzDragging=true;
+    pzPinchDist=null;
+  } else if(e.touches.length===2){
+    e.preventDefault();
+    pzDragging=false;
+    let dx=e.touches[0].clientX-e.touches[1].clientX;
+    let dy=e.touches[0].clientY-e.touches[1].clientY;
+    pzPinchDist=Math.hypot(dx,dy);
+    pzPinchScale=pzScale;
+  }
+},{passive:false});
+
+document.addEventListener('touchmove', e=>{
+  let overlay=document.getElementById('pzOverlay');
+  if(!overlay||!overlay.classList.contains('show')) return;
+  if(e.target.closest('.pz-controls')) return;
+  e.preventDefault();
+
+  if(e.touches.length===2 && pzPinchDist){
+    let dx=e.touches[0].clientX-e.touches[1].clientX;
+    let dy=e.touches[0].clientY-e.touches[1].clientY;
+    let dist=Math.hypot(dx,dy);
+    let ratio=dist/pzPinchDist;
+    pzScale=Math.min(pzMaxScale,Math.max(pzMinScale,pzPinchScale*ratio));
+    pzApplyTransform(false);
+  } else if(e.touches.length===1 && pzDragging){
+    let t=e.touches[0];
+    pzOffX=pzDragOriginX+(t.clientX-pzDragStartX);
+    pzOffY=pzDragOriginY+(t.clientY-pzDragStartY);
+    pzApplyTransform(false);
+  }
+},{passive:false});
+
+document.addEventListener('touchend', e=>{
+  let overlay=document.getElementById('pzOverlay');
+  if(!overlay||!overlay.classList.contains('show')) return;
+  if(e.touches.length===0){ pzDragging=false; pzPinchDist=null; }
+},{passive:true});
+
+// Keyboard shortcut: Escape untuk tutup
+document.addEventListener('keydown', e=>{
+  let overlay=document.getElementById('pzOverlay');
+  if(!overlay||!overlay.classList.contains('show')) return;
+  if(e.key==='Escape') pzClose();
+  if(e.key==='+'||e.key==='=') pzZoom(0.2);
+  if(e.key==='-') pzZoom(-0.2);
+  if(e.key==='0') pzReset();
+});
+
 function showView(v){
   if(v!=='flipbook') pauseAllVideos();
   activeView=v;
@@ -932,7 +1151,7 @@ function openFlipbook(subIdx){
   zoomLevel=1.0;
 
   // Resume ke halaman terakhir yang dibaca
-  const lastPage=getLastPage(subIdx);
+  let lastPage=getLastPage(subIdx);
   // Cari spread yang mengandung lastPage
   curSpread=0;
   if(lastPage>0){
@@ -956,47 +1175,47 @@ function openQuiz(){
   showView('quiz');
   if(!quiz.built){buildQuizPanel();quiz.built=true;}
   // Restore state dari localStorage jika ada
-  const saved=loadQuizState();
+  let saved=loadQuizState();
   if(saved) restoreQuizToDom(saved);
 }
 function buildQuizPanel(){
-  const container=document.getElementById('quizPanels');
+  let container=document.getElementById('quizPanels');
   container.appendChild(makeQuizWidget());
 }
 
 /* BUILD QUIZ WIDGET — 1 quiz tunggal */
 function makeQuizWidget(){
-  const wrap=document.createElement('div');wrap.className='qwrap';wrap.id='qwrapAll';
+  let wrap=document.createElement('div');wrap.className='qwrap';wrap.id='qwrapAll';
   wrap.innerHTML=`<div class="qt-title">📝 Latihan Soal Ikatan Kimia</div><div class="qt-sub">Jawab satu per satu · 3 kesempatan tiap soal</div><div class="qpb-bg"><div class="qpb" id="qpbAll"></div></div><div class="qpl" id="qplAll">Soal 1 dari ${TOTAL_SOAL}</div>`;
   quiz.data.forEach((item,idx)=>{
-    const card=document.createElement('div');card.className='q-card'+(idx===0?' active':'');card.id=`qc_${idx}`;
+    let card=document.createElement('div');card.className='q-card'+(idx===0?' active':'');card.id=`qc_${idx}`;
 
     // nomor urut soal
-    const qnum=document.createElement('div');qnum.className='q-num';qnum.textContent=`Soal ${idx+1} dari ${TOTAL_SOAL}`;card.appendChild(qnum);
+    let qnum=document.createElement('div');qnum.className='q-num';qnum.textContent=`Soal ${idx+1} dari ${TOTAL_SOAL}`;card.appendChild(qnum);
 
-    const ar=document.createElement('div');ar.className='att-row';
-    const al=document.createElement('span');al.className='att-lbl';al.textContent='Kesempatan:';ar.appendChild(al);
-    for(let d=0;d<3;d++){const dot=document.createElement('span');dot.className='att-dot';dot.id=`qdot_${idx}_${d}`;ar.appendChild(dot);}
+    let ar=document.createElement('div');ar.className='att-row';
+    let al=document.createElement('span');al.className='att-lbl';al.textContent='Kesempatan:';ar.appendChild(al);
+    for(let d=0;d<3;d++){let dot=document.createElement('span');dot.className='att-dot';dot.id=`qdot_${idx}_${d}`;ar.appendChild(dot);}
     card.appendChild(ar);
 
-    const qt=document.createElement('div');qt.className='q-text';qt.textContent=item.q;card.appendChild(qt);
-    const opts=document.createElement('div');opts.className='q-opts';
+    let qt=document.createElement('div');qt.className='q-text';qt.textContent=item.q;card.appendChild(qt);
+    let opts=document.createElement('div');opts.className='q-opts';
     item.opts.forEach((opt,oi)=>{
-      const lbl=document.createElement('label');lbl.className='opt-lbl';lbl.id=`opt_${idx}_${oi}`;
-      const inp=document.createElement('input');inp.type='radio';inp.name=`qq_${idx}`;inp.value=oi;
+      let lbl=document.createElement('label');lbl.className='opt-lbl';lbl.id=`opt_${idx}_${oi}`;
+      let inp=document.createElement('input');inp.type='radio';inp.name=`qq_${idx}`;inp.value=oi;
       inp.addEventListener('change',()=>{if(!quiz.done[idx]) quiz.sel[idx]=oi;});
       lbl.appendChild(inp);lbl.appendChild(document.createTextNode(opt));opts.appendChild(lbl);
     });
     card.appendChild(opts);
-    const fb=document.createElement('div');fb.className='fb-box';fb.id=`fb_${idx}`;card.appendChild(fb);
-    const btns=document.createElement('div');btns.className='q-btns';
-    const bc=document.createElement('button');bc.className='q-btn';bc.id=`bc_${idx}`;bc.textContent='✔ Periksa Jawaban';bc.addEventListener('click',()=>checkAns(idx));
-    const bn=document.createElement('button');bn.className='q-btn q-btn-nxt';bn.id=`bn_${idx}`;
+    let fb=document.createElement('div');fb.className='fb-box';fb.id=`fb_${idx}`;card.appendChild(fb);
+    let btns=document.createElement('div');btns.className='q-btns';
+    let bc=document.createElement('button');bc.className='q-btn';bc.id=`bc_${idx}`;bc.textContent='✔ Periksa Jawaban';bc.addEventListener('click',()=>checkAns(idx));
+    let bn=document.createElement('button');bn.className='q-btn q-btn-nxt';bn.id=`bn_${idx}`;
     bn.textContent=idx<quiz.data.length-1?'Soal Berikutnya →':'🏁 Lihat Hasil';
     bn.addEventListener('click',()=>nextQ(idx));
     btns.appendChild(bc);btns.appendChild(bn);card.appendChild(btns);wrap.appendChild(card);
   });
-  const sp=document.createElement('div');sp.className='score-panel';sp.id='scorePanAll';
+  let sp=document.createElement('div');sp.className='score-panel';sp.id='scorePanAll';
   sp.innerHTML=`<div class="score-num" id="scoreNumAll">0/${TOTAL_SOAL}</div><div class="score-msg" id="scoreMsgAll"></div><button class="score-rst" id="btnRstAll">🔄 Coba Lagi</button>`;
   wrap.appendChild(sp);return wrap;
 }
@@ -1005,26 +1224,26 @@ function makeQuizWidget(){
 function checkAns(idx){
   if(quiz.done[idx]) return;
   if(quiz.sel[idx]===null){showToast('Pilih jawaban terlebih dahulu!');return;}
-  const item=quiz.data[idx];
-  const fb=document.getElementById(`fb_${idx}`);
-  const bc=document.getElementById(`bc_${idx}`);
-  const bn=document.getElementById(`bn_${idx}`);
-  const ok=quiz.sel[idx]===item.ans;
+  let item=quiz.data[idx];
+  let fb=document.getElementById(`fb_${idx}`);
+  let bc=document.getElementById(`bc_${idx}`);
+  let bn=document.getElementById(`bn_${idx}`);
+  let ok=quiz.sel[idx]===item.ans;
   if(ok){
     quiz.done[idx]=true;quiz.ok[idx]=true;
-    item.opts.forEach((_,oi)=>{const l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.querySelector('input').disabled=true;if(oi===item.ans)l.classList.add('correct');}});
-    for(let d=0;d<3;d++){const dot=document.getElementById(`qdot_${idx}_${d}`);if(dot&&d<quiz.att[idx]+1) dot.style.background='#28a745';}
+    item.opts.forEach((_,oi)=>{let l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.querySelector('input').disabled=true;if(oi===item.ans)l.classList.add('correct');}});
+    for(let d=0;d<3;d++){let dot=document.getElementById(`qdot_${idx}_${d}`);if(dot&&d<quiz.att[idx]+1) dot.style.background='#28a745';}
     fb.className='fb-box fb-correct show';fb.innerHTML=`<strong>✅ Jawaban Benar!</strong> ${item.ok}`;
     bc.style.display='none';bn.style.display='inline-block';
   } else {
     quiz.att[idx]++;
-    const dot=document.getElementById(`qdot_${idx}_${quiz.att[idx]-1}`);if(dot) dot.style.background='#dc3545';
-    const wl=document.getElementById(`opt_${idx}_${quiz.sel[idx]}`);
+    let dot=document.getElementById(`qdot_${idx}_${quiz.att[idx]-1}`);if(dot) dot.style.background='#dc3545';
+    let wl=document.getElementById(`opt_${idx}_${quiz.sel[idx]}`);
     if(wl){wl.classList.add('wrong');setTimeout(()=>wl.classList.remove('wrong'),700);wl.querySelector('input').checked=false;}
     quiz.sel[idx]=null;
     if(quiz.att[idx]>=3){
       quiz.done[idx]=true;
-      item.opts.forEach((_,oi)=>{const l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.querySelector('input').disabled=true;if(oi===item.ans)l.classList.add('correct');}});
+      item.opts.forEach((_,oi)=>{let l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.querySelector('input').disabled=true;if(oi===item.ans)l.classList.add('correct');}});
       fb.className='fb-box fb-exhausted show';fb.innerHTML=`<strong>❌ Jawaban Salah.</strong> ${item.fb[2]}<br><span style="font-weight:800;color:#1a6496;display:inline-block;margin-top:2px;">Jawaban benar: ${item.opts[item.ans]}</span>`;
       bc.style.display='none';bn.style.display='inline-block';
     } else {
@@ -1036,22 +1255,77 @@ function checkAns(idx){
 }
 
 function nextQ(idx){
-  const nxt=idx+1;
+  let nxt=idx+1;
   if(nxt>=quiz.data.length){showScore();return;}
   document.getElementById(`qc_${idx}`).classList.remove('active');
   document.getElementById(`qc_${nxt}`).classList.add('active');
-  const qp=document.getElementById('quizPage');if(qp) qp.scrollTop=0;
+  let qp=document.getElementById('quizPage');if(qp) qp.scrollTop=0;
   window.scrollTo({top:0,behavior:'smooth'});
   quiz.cur=nxt;
   updateQProg();
   saveQuizState(); // ← simpan posisi soal saat ini
 }
 function updateQProg(){
-  const done=quiz.done.filter(Boolean).length;
-  const bar=document.getElementById('qpbAll');const lbl=document.getElementById('qplAll');
+  let done=quiz.done.filter(Boolean).length;
+  let bar=document.getElementById('qpbAll');let lbl=document.getElementById('qplAll');
   if(bar) bar.style.width=(done/TOTAL_SOAL*100)+'%';
   if(lbl) lbl.textContent=done<TOTAL_SOAL?`Soal ${quiz.cur+1} dari ${TOTAL_SOAL}`:'Semua soal selesai! ✅';
 }
+/* ── DATA CHECKPOINT PER BAB ── */
+const CHECKPOINT_DATA=[
+  {
+    judul:'Bab 1 – Kestabilan Unsur',
+    intro:'Setelah mempelajari Bab 1, saya mampu:',
+    items:[
+      'Menjelaskan alasan atom cenderung mencapai keadaan stabil.',
+      'Membedakan aturan duplet dan aturan oktet.',
+      'Menentukan jumlah elektron valensi suatu unsur.',
+      'Menggambarkan struktur Lewis suatu unsur.',
+      'Menjelaskan hubungan antara kestabilan unsur dengan pembentukan ikatan kimia.',
+    ],
+    ok:'Hebat! Kamu telah memahami konsep dasar kestabilan unsur sebagai bekal untuk mempelajari pembentukan ikatan kimia pada bab berikutnya.',
+    belum:'Tidak masalah jika masih ada konsep yang belum dipahami. Pelajari kembali bagian tentang aturan oktet, duplet, atau struktur Lewis agar kamu lebih siap memahami pembentukan ikatan kimia.',
+  },
+  {
+    judul:'Bab 2 – Ikatan Ion',
+    intro:'Setelah mempelajari Bab 2, saya mampu:',
+    items:[
+      'Menjelaskan proses terbentuknya ion positif dan ion negatif.',
+      'Menjelaskan bahwa ikatan ion terbentuk karena gaya tarik elektrostatik antara kation dan anion.',
+      'Menentukan rumus senyawa ion berdasarkan keseimbangan muatan.',
+      'Membedakan proses pembentukan ion dengan proses terbentuknya ikatan ion.',
+      'Menjelaskan sifat-sifat utama senyawa ion berdasarkan struktur penyusunnya.',
+    ],
+    ok:'Bagus! Kamu telah memahami konsep ikatan ion dan siap mempelajari jenis ikatan kimia berikutnya.',
+    belum:'Cobalah membaca kembali bagian tentang gaya tarik elektrostatik dan penentuan rumus senyawa ion. Kedua konsep tersebut sangat penting untuk memahami ikatan ion secara utuh.',
+  },
+  {
+    judul:'Bab 3 – Ikatan Kovalen',
+    intro:'Setelah mempelajari Bab 3, saya mampu:',
+    items:[
+      'Menjelaskan proses terbentuknya ikatan kovalen melalui penggunaan bersama pasangan elektron.',
+      'Membedakan ikatan kovalen tunggal, rangkap dua, dan rangkap tiga.',
+      'Menggambar struktur Lewis senyawa kovalen sederhana.',
+      'Membedakan ikatan kovalen polar dan nonpolar berdasarkan kepolaran molekul.',
+      'Menghubungkan jenis ikatan kovalen dengan contoh senyawa dalam kehidupan sehari-hari.',
+    ],
+    ok:'Sangat baik! Kamu telah memahami pembentukan dan karakteristik ikatan kovalen.',
+    belum:'Perhatikan kembali materi tentang struktur Lewis dan kepolaran molekul. Kedua konsep tersebut menjadi dasar untuk memahami sifat senyawa kovalen.',
+  },
+  {
+    judul:'Bab 4 – Ikatan Logam',
+    intro:'Setelah mempelajari Bab 4, saya mampu:',
+    items:[
+      'Menjelaskan proses terbentuknya ikatan logam berdasarkan model lautan elektron.',
+      'Menjelaskan peran elektron valensi yang terdelokalisasi dalam ikatan logam.',
+      'Menghubungkan ikatan logam dengan sifat penghantar listrik dan panas.',
+      'Menjelaskan mengapa logam dapat ditempa dan dibentuk tanpa mudah patah.',
+      'Memberikan contoh penerapan sifat logam dalam kehidupan sehari-hari.',
+    ],
+    ok:'Luar biasa! Kamu telah memahami konsep ikatan logam beserta kaitannya dengan sifat-sifat logam dalam kehidupan sehari-hari.',
+    belum:'Bacalah kembali bagian mengenai model lautan elektron dan hubungan antara struktur logam dengan sifat-sifatnya agar pemahamanmu semakin kuat.',
+  },
+];
 /* Mapping soal ke bab: soal 0-4=Bab1, 5-9=Bab2, 10-16=Bab3, 17-19=Bab4 */
 const BAB_INFO=[
   {nama:'Bab 1 – Kestabilan Unsur',      soalIdx:[0,1,2,3,4],      subBab:0},
@@ -1068,7 +1342,7 @@ const RIWAYAT_KEY='ikimia_riwayat_v1';
 
 function saveQuizState(){
   try{
-    const state={
+    let state={
       att:quiz.att, done:quiz.done, ok:quiz.ok,
       sel:quiz.sel, cur:quiz.cur, finished:quiz.ok.filter(Boolean).length===TOTAL_SOAL||quiz.done.every(Boolean)
     };
@@ -1078,7 +1352,7 @@ function saveQuizState(){
 
 function loadQuizState(){
   try{
-    const raw=localStorage.getItem(QUIZ_STATE_KEY);
+    let raw=localStorage.getItem(QUIZ_STATE_KEY);
     if(raw) return JSON.parse(raw);
   }catch(e){}
   return null;
@@ -1091,7 +1365,7 @@ function clearQuizState(){
 /* RIWAYAT EVALUASI */
 function loadRiwayat(){
   try{
-    const raw=localStorage.getItem(RIWAYAT_KEY);
+    let raw=localStorage.getItem(RIWAYAT_KEY);
     if(raw) return JSON.parse(raw);
   }catch(e){}
   return[];
@@ -1099,7 +1373,7 @@ function loadRiwayat(){
 
 function saveRiwayatEntry(entry){
   try{
-    const list=loadRiwayat();
+    let list=loadRiwayat();
     list.push(entry);
     localStorage.setItem(RIWAYAT_KEY, JSON.stringify(list));
   }catch(e){}
@@ -1114,11 +1388,11 @@ function hapusRiwayat(){
 }
 
 function updateRiwayatMenuDesc(){
-  const list=loadRiwayat();
-  const el=document.getElementById('riwayatMenuDesc');
+  let list=loadRiwayat();
+  let el=document.getElementById('riwayatMenuDesc');
   if(!el) return;
   if(list.length===0){ el.textContent='Belum ada riwayat evaluasi'; return; }
-  const last=list[list.length-1];
+  let last=list[list.length-1];
   el.textContent=`${list.length}x evaluasi · Terakhir: ${last.pct}% (${last.lulus?'Lulus':'Belum lulus'})`;
 }
 
@@ -1128,8 +1402,8 @@ function openRiwayat(){
 }
 
 function renderRiwayat(){
-  const list=loadRiwayat();
-  const container=document.getElementById('riwayatList');
+  let list=loadRiwayat();
+  let container=document.getElementById('riwayatList');
   if(!container) return;
   if(list.length===0){
     container.innerHTML='<div class="riwayat-empty">📭 Belum ada riwayat evaluasi.<br>Selesaikan Evaluasi Akhir untuk melihat hasil di sini.</div>';
@@ -1137,11 +1411,11 @@ function renderRiwayat(){
   }
   // Tampilkan dari terbaru ke terlama
   container.innerHTML=[...list].reverse().map((item,i)=>{
-    const no=list.length-i;
-    const cls=item.lulus?'lulus':'gagal';
-    const babHTML=item.bab.map(b=>{
-      const bc=b.pct>=80?'ok':b.pct>=60?'warn':'bad';
-      const ikon=b.pct>=80?'✅':b.pct>=60?'⚠️':'❌';
+    let no=list.length-i;
+    let cls=item.lulus?'lulus':'gagal';
+    let babHTML=item.bab.map(b=>{
+      let bc=b.pct>=80?'ok':b.pct>=60?'warn':'bad';
+      let ikon=b.pct>=80?'✅':b.pct>=60?'⚠️':'❌';
       return`<div class="riwayat-bab-item">
         <div class="riwayat-bab-nama">${b.nama}</div>
         <div class="riwayat-bab-skor ${bc}">${ikon} ${b.benar}/${b.total} (${b.pct}%)</div>
@@ -1168,26 +1442,26 @@ function restoreQuizToDom(state){
     quiz.done[idx]=state.done[idx];
     quiz.ok[idx]=state.ok[idx];
     quiz.sel[idx]=state.sel[idx];
-    const item=quiz.data[idx];
+    let item=quiz.data[idx];
 
     // Restore dots
     for(let d=0;d<3;d++){
-      const dot=document.getElementById(`qdot_${idx}_${d}`);
+      let dot=document.getElementById(`qdot_${idx}_${d}`);
       if(dot&&d<att) dot.style.background=state.ok[idx]?'#28a745':'#dc3545';
     }
 
     if(state.done[idx]){
       // Tandai jawaban benar
       item.opts.forEach((_,oi)=>{
-        const l=document.getElementById(`opt_${idx}_${oi}`);
+        let l=document.getElementById(`opt_${idx}_${oi}`);
         if(l){
           l.querySelector('input').disabled=true;
           if(oi===item.ans) l.classList.add('correct');
         }
       });
-      const fb=document.getElementById(`fb_${idx}`);
-      const bc=document.getElementById(`bc_${idx}`);
-      const bn=document.getElementById(`bn_${idx}`);
+      let fb=document.getElementById(`fb_${idx}`);
+      let bc=document.getElementById(`bc_${idx}`);
+      let bn=document.getElementById(`bn_${idx}`);
       if(bc) bc.style.display='none';
       if(bn) bn.style.display='inline-block';
       if(fb){
@@ -1205,7 +1479,7 @@ function restoreQuizToDom(state){
   // Pindah ke soal terakhir yang aktif
   quiz.cur=state.cur;
   quiz.data.forEach((_,idx)=>{
-    const c=document.getElementById(`qc_${idx}`);
+    let c=document.getElementById(`qc_${idx}`);
     if(c) c.classList.toggle('active',idx===state.cur);
   });
   updateQProg();
@@ -1215,31 +1489,31 @@ function restoreQuizToDom(state){
 }
 
 function showScore(){
-  const score=quiz.ok.filter(Boolean).length;
-  const total=TOTAL_SOAL;
-  const pct=Math.round(score/total*100);
-  const panel=document.getElementById('scorePanAll');
+  let score=quiz.ok.filter(Boolean).length;
+  let total=TOTAL_SOAL;
+  let pct=Math.round(score/total*100);
+  let panel=document.getElementById('scorePanAll');
   if(!panel) return;
   panel.classList.add('show');
 
-  const lulus=pct>=80;
-  const snEl=document.getElementById('scoreNumAll');
+  let lulus=pct>=80;
+  let snEl=document.getElementById('scoreNumAll');
   snEl.textContent=`${score} / ${total}  (${pct}%)`;
   snEl.style.color=lulus?'#2ecc71':'#e74c3c';
-  const qpb=document.getElementById('qpbAll');if(qpb) qpb.style.width='100%';
+  let qpb=document.getElementById('qpbAll');if(qpb) qpb.style.width='100%';
 
   // Hitung rekap per bab
-  const rekapData=BAB_INFO.map(bab=>{
-    const tot=bab.soalIdx.length;
-    const benar=bab.soalIdx.filter(i=>quiz.ok[i]).length;
-    const pctB=Math.round(benar/tot*100);
+  let rekapData=BAB_INFO.map(bab=>{
+    let tot=bab.soalIdx.length;
+    let benar=bab.soalIdx.filter(i=>quiz.ok[i]).length;
+    let pctB=Math.round(benar/tot*100);
     return{nama:bab.nama,benar,total:tot,pct:pctB,subBab:bab.subBab};
   });
-  const perluUlang=rekapData.filter(b=>b.pct<80);
+  let perluUlang=rekapData.filter(b=>b.pct<80);
 
   // Simpan ke riwayat & hapus state aktif
-  const now=new Date();
-  const tanggal=now.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})+' '+now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  let now=new Date();
+  let tanggal=now.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})+' '+now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
   saveRiwayatEntry({skor:score,total,pct,lulus,tanggal,bab:rekapData});
   updateRiwayatMenuDesc();
   clearQuizState();
@@ -1247,28 +1521,28 @@ function showScore(){
   // Bangun HTML rekap
   let rekapHTML=`<div class="rekap-wrap"><div class="rekap-title">📊 Rekap Penguasaan Materi per Bab</div><table class="rekap-table"><thead><tr><th>Materi</th><th>Hasil</th></tr></thead><tbody>`;
   rekapData.forEach(b=>{
-    const cls=b.pct>=80?'ok':b.pct>=60?'warn':'bad';
-    const ikon=b.pct>=80?'✅':b.pct>=60?'⚠️':'❌';
+    let cls=b.pct>=80?'ok':b.pct>=60?'warn':'bad';
+    let ikon=b.pct>=80?'✅':b.pct>=60?'⚠️':'❌';
     rekapHTML+=`<tr><td>${b.nama}</td><td><span class="rekap-score ${cls}">${ikon} ${b.benar}/${b.total}</span><span class="rekap-bar"><span class="rekap-bar-fill ${cls}" style="width:${b.pct}%"></span></span></td></tr>`;
   });
   rekapHTML+=`</tbody></table>`;
   if(perluUlang.length>0){
-    const daftarBab=perluUlang.map(b=>`<b>${b.nama}</b>`).join(', ');
+    let daftarBab=perluUlang.map(b=>`<b>${b.nama}</b>`).join(', ');
     rekapHTML+=`<div class="rekomendasi-box"><div class="rekomendasi-title">💡 Rekomendasi Belajar</div><div class="rekomendasi-list">Materi yang disarankan untuk dipelajari kembali:<br>${daftarBab},<br>karena masih terdapat beberapa konsep yang belum dikuasai.</div></div>`;
   } else {
     rekapHTML+=`<div class="rekomendasi-box" style="background:rgba(46,204,113,.13);border-color:rgba(46,204,113,.3);"><div class="rekomendasi-title" style="color:#2ecc71;">🎉 Penguasaan Materi Sempurna!</div><div class="rekomendasi-list" style="color:#a9f0c8;">Anda telah menguasai semua materi dengan baik!</div></div>`;
   }
   rekapHTML+=`<button class="score-lanjut-btn" onclick="openRiwayat()" style="width:100%;margin-top:10px;">📈 Lihat Semua Riwayat Evaluasi</button></div>`;
 
-  const msgEl=document.getElementById('scoreMsgAll');
+  let msgEl=document.getElementById('scoreMsgAll');
   if(lulus){
     msgEl.innerHTML=`<div class="hasil-lulus"><span class="hasil-emoji">🎓</span><span class="hasil-teks">Selamat! Anda telah menyelesaikan pembelajaran.</span><span class="hasil-sub">Nilai Anda ${pct}% ≥ 80 — Anda dinyatakan <b>LULUS</b> evaluasi akhir Ikatan Kimia.</span></div>${rekapHTML}`;
   } else {
-    const saranBab=perluUlang.map(b=>`Sub Bab ${b.subBab+1}`).join(', ');
+    let saranBab=perluUlang.map(b=>`Sub Bab ${b.subBab+1}`).join(', ');
     msgEl.innerHTML=`<div class="hasil-gagal"><span class="hasil-emoji">📚</span><span class="hasil-teks">Belum mencapai nilai minimum.</span><span class="hasil-sub">Nilai Anda ${pct}% &lt; 80 — Silakan pelajari kembali ${saranBab} dan ulangi evaluasi.</span></div>${rekapHTML}`;
   }
 
-  const rst=document.getElementById('btnRstAll');
+  let rst=document.getElementById('btnRstAll');
   if(rst){rst.textContent=lulus?'🔄 Kerjakan Ulang':'🔄 Ulangi Evaluasi';rst.addEventListener('click',resetQuiz,{once:true});}
   showToast(lulus?'🎓 Evaluasi selesai — Anda LULUS!':'📚 Evaluasi selesai — Pelajari ulang ya!');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1277,17 +1551,17 @@ function resetQuiz(){
   quiz.att=new Array(TOTAL_SOAL).fill(0);quiz.done=new Array(TOTAL_SOAL).fill(false);
   quiz.ok=new Array(TOTAL_SOAL).fill(false);quiz.sel=new Array(TOTAL_SOAL).fill(null);quiz.cur=0;
   quiz.data.forEach((_,idx)=>{
-    const c=document.getElementById(`qc_${idx}`);if(c) c.classList.toggle('active',idx===0);
-    _.opts.forEach((_,oi)=>{const l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.classList.remove('correct','wrong');l.querySelector('input').checked=false;l.querySelector('input').disabled=false;}});
-    for(let d=0;d<3;d++){const dot=document.getElementById(`qdot_${idx}_${d}`);if(dot) dot.style.background='white';}
-    const fb=document.getElementById(`fb_${idx}`);if(fb){fb.className='fb-box';fb.innerHTML='';}
-    const bc=document.getElementById(`bc_${idx}`);if(bc) bc.style.display='inline-block';
-    const bn=document.getElementById(`bn_${idx}`);if(bn) bn.style.display='none';
+    let c=document.getElementById(`qc_${idx}`);if(c) c.classList.toggle('active',idx===0);
+    _.opts.forEach((_,oi)=>{let l=document.getElementById(`opt_${idx}_${oi}`);if(l){l.classList.remove('correct','wrong');l.querySelector('input').checked=false;l.querySelector('input').disabled=false;}});
+    for(let d=0;d<3;d++){let dot=document.getElementById(`qdot_${idx}_${d}`);if(dot) dot.style.background='white';}
+    let fb=document.getElementById(`fb_${idx}`);if(fb){fb.className='fb-box';fb.innerHTML='';}
+    let bc=document.getElementById(`bc_${idx}`);if(bc) bc.style.display='inline-block';
+    let bn=document.getElementById(`bn_${idx}`);if(bn) bn.style.display='none';
   });
-  const msgEl=document.getElementById('scoreMsgAll');if(msgEl) msgEl.innerHTML='';
-  const snEl=document.getElementById('scoreNumAll');if(snEl){snEl.textContent=`0/${TOTAL_SOAL}`;snEl.style.color='#aed6f1';}
-  const sp=document.getElementById('scorePanAll');if(sp) sp.classList.remove('show');
-  const rst=document.getElementById('btnRstAll');if(rst) rst.addEventListener('click',resetQuiz,{once:true});
+  let msgEl=document.getElementById('scoreMsgAll');if(msgEl) msgEl.innerHTML='';
+  let snEl=document.getElementById('scoreNumAll');if(snEl){snEl.textContent=`0/${TOTAL_SOAL}`;snEl.style.color='#aed6f1';}
+  let sp=document.getElementById('scorePanAll');if(sp) sp.classList.remove('show');
+  let rst=document.getElementById('btnRstAll');if(rst) rst.addEventListener('click',resetQuiz,{once:true});
   clearQuizState(); // hapus state lama agar mulai dari awal
   updateQProg();window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1302,7 +1576,7 @@ let singlePage = window.innerWidth <= 640; // otomatis HP = 1 halaman
 function togglePageView(){
   // Simpan index halaman yang sedang tampil sebelum ganti mode
   const[li,ri]=SPREADS[curSpread];
-  const curPageIdx = ri!==null ? ri : (li!==null ? li : 0);
+  let curPageIdx = ri!==null ? ri : (li!==null ? li : 0);
 
   singlePage=!singlePage;
   SPREADS=buildSpreads(PAGES, singlePage);
@@ -1321,7 +1595,7 @@ function togglePageView(){
 }
 
 function updateViewToggleBtn(){
-  const btn=document.getElementById('viewToggleBtn');
+  let btn=document.getElementById('viewToggleBtn');
   if(!btn) return;
   if(singlePage){
     btn.textContent='📖 2 Hal.';
@@ -1340,36 +1614,36 @@ function changeZoom(delta){
 }
 function resetZoom(){zoomLevel=1.0;applyZoom();}
 function applyZoom(){
-  const bc=document.getElementById('bookContainer');
+  let bc=document.getElementById('bookContainer');
   if(bc){
     bc.style.transform=`scale(${zoomLevel})`;
     bc.style.transformOrigin='top center';
     /* update margin agar ruang buku tidak collapse saat zoom in */
-    const bw=bc.querySelector('.book-wrap');
+    let bw=bc.querySelector('.book-wrap');
     if(bw){
-      const rect=bw.getBoundingClientRect();
-      const scaledH=rect.height; // sudah ter-scale
+      let rect=bw.getBoundingClientRect();
+      let scaledH=rect.height; // sudah ter-scale
       bc.style.marginBottom=`${Math.max(0,(scaledH - bw.offsetHeight))}px`;
     }
   }
   /* Posisikan nav btn relatif terhadap buku yang sudah di-scale */
   _repositionNav();
-  const val=document.getElementById('zoomVal');
+  let val=document.getElementById('zoomVal');
   if(val) val.textContent=(zoomLevel>=1?'+':'')+Math.round((zoomLevel-1)*100)+'%';
-  const btnOut=document.getElementById('zoomOut');
-  const btnIn=document.getElementById('zoomIn');
+  let btnOut=document.getElementById('zoomOut');
+  let btnIn=document.getElementById('zoomIn');
   if(btnOut) btnOut.disabled=zoomLevel<=ZOOM_MIN;
   if(btnIn)  btnIn.disabled=zoomLevel>=ZOOM_MAX;
 }
 function _repositionNav(){
-  const bc=document.getElementById('bookContainer');
+  let bc=document.getElementById('bookContainer');
   if(!bc||!prevBtn||!nextBtn) return;
-  const bcRect=bc.getBoundingClientRect();
-  const sceneRect=document.getElementById('scene').getBoundingClientRect();
+  let bcRect=bc.getBoundingClientRect();
+  let sceneRect=document.getElementById('scene').getBoundingClientRect();
   /* offset relatif ke scene */
-  const leftEdge=bcRect.left - sceneRect.left;
-  const rightEdge=bcRect.right - sceneRect.left;
-  const midY=bcRect.top - sceneRect.top + bcRect.height/2;
+  let leftEdge=bcRect.left - sceneRect.left;
+  let rightEdge=bcRect.right - sceneRect.left;
+  let midY=bcRect.top - sceneRect.top + bcRect.height/2;
   prevBtn.style.cssText=`position:absolute;top:${midY}px;left:${leftEdge-52}px;transform:translateY(-50%);`;
   nextBtn.style.cssText=`position:absolute;top:${midY}px;left:${rightEdge+8}px;transform:translateY(-50%);`;
 }
@@ -1378,15 +1652,15 @@ function _repositionNav(){
 function pageSize(){
   if(singlePage){
     // Single page: 1 halaman, lebar penuh (minus padding nav)
-    const maxW=Math.min(window.innerWidth-100, 480);
-    const maxH=window.innerHeight*0.72;
+    let maxW=Math.min(window.innerWidth-100, 480);
+    let maxH=window.innerHeight*0.72;
     let w=maxW, h=Math.round(w*1.4142);
     if(h>maxH){h=Math.floor(maxH);w=Math.round(h/1.4142);}
     return{w:Math.max(w,240),h:Math.max(h,340)};
   }
   // Double page: dua halaman berdampingan
-  const maxW=Math.min((window.innerWidth-160)/2,460);
-  const maxH=window.innerHeight*0.72;
+  let maxW=Math.min((window.innerWidth-160)/2,460);
+  let maxH=window.innerHeight*0.72;
   let w=maxW,h=Math.round(w*1.4142);
   if(h>maxH){h=Math.floor(maxH);w=Math.round(h/1.4142);}
   return{w:Math.max(w,190),h:Math.max(h,269)};
@@ -1394,26 +1668,34 @@ function pageSize(){
 
 /* MAKE FACE */
 function makeFace(pi,w,h){
-  const face=document.createElement('div');
+  let face=document.createElement('div');
   face.className='pface';
   face.style.cssText=`width:${w}px;height:${h}px;`;
   if(pi===null){
-    const b=document.createElement('div');b.className='pface-blank';face.appendChild(b);
+    let b=document.createElement('div');b.className='pface-blank';face.appendChild(b);
   } else {
-    const p=PAGES[pi];
+    let p=PAGES[pi];
     if(p.type==='img'){
-      const img=document.createElement('img');
+      let img=document.createElement('img');
       img.alt='Halaman '+(pi+1);
       img.decoding='async';
       img.src=p.src;
       face.appendChild(img);
+      // Hint zoom
+      let hint=document.createElement('div');
+      hint.className='pz-hint';
+      hint.textContent='🔍 Zoom';
+      face.appendChild(hint);
+      // Tandai agar setupTouchSwipe tahu ini halaman yang bisa di-zoom
+      face.setAttribute('data-pz-src', p.src);
+      face.style.cssText = face.style.cssText + 'pointer-events:auto;cursor:zoom-in;';
     } else if(p.type==='video'){
       // Bungkus video dalam container agar mudah dikontrol
-      const vWrap=document.createElement('div');
+      let vWrap=document.createElement('div');
       vWrap.setAttribute('data-video-wrap','1');
       vWrap.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;z-index:5;pointer-events:auto;';
 
-      const v=document.createElement('video');
+      let v=document.createElement('video');
       v.controls=true;
       v.preload='none';
       v.setAttribute('playsinline','');
@@ -1432,12 +1714,95 @@ function makeFace(pi,w,h){
       face.appendChild(vWrap);
       // Override pface style agar tidak menutupi video
       face.style.cssText=face.style.cssText+'pointer-events:auto;background:#000;';
+    } else if(p.type==='checkpoint'){
+      face.style.cssText=face.style.cssText+'pointer-events:auto;background:transparent;overflow:visible;';
+      face.appendChild(makeCheckpointFace(p.bab, w, h));
     }
   }
   return face;
 }
 
-/* PAUSE semua video */
+/* Buat halaman checkpoint interaktif */
+function makeCheckpointFace(babIdx, w, h){
+  let data=CHECKPOINT_DATA[babIdx];
+  let cpId='cp_'+babIdx+'_'+Date.now();
+
+  let wrap=document.createElement('div');
+  wrap.className='cp-wrap';
+  wrap.style.cssText=`width:${w}px;height:${h}px;`;
+
+  // Bangun inner HTML
+  let itemsHTML=data.items.map((item,i)=>
+    `<div class="cp-item" id="${cpId}_row_${i}">
+      <input type="checkbox" id="${cpId}_chk_${i}" onchange="cpUpdate('${cpId}',${data.items.length})">
+      <label for="${cpId}_chk_${i}">${item}</label>
+    </div>`
+  ).join('');
+
+  wrap.innerHTML=`
+    <div class="cp-card">
+      <div class="cp-header">
+        <span class="cp-icon">🔎</span>
+        <div>
+          <div class="cp-title">CHECKPOINT REFLEKSI</div>
+          <div class="cp-sub">${data.judul}</div>
+        </div>
+      </div>
+      <hr class="cp-divider">
+      <div class="cp-intro">${data.intro}</div>
+      <div class="cp-progress-row">
+        <div class="cp-progress-bar"><div class="cp-progress-fill" id="${cpId}_bar" style="width:0%"></div></div>
+        <span class="cp-progress-txt" id="${cpId}_pct">0 / ${data.items.length}</span>
+      </div>
+      <div class="cp-items">${itemsHTML}</div>
+      <button class="cp-btn" onclick="cpCheck('${cpId}',${babIdx})">🔍 Periksa Hasil Refleksi</button>
+      <div class="cp-feedback" id="${cpId}_fb"></div>
+    </div>`;
+
+  return wrap;
+}
+
+/* CHECKPOINT FUNCTIONS */
+function cpUpdate(cpId, total){
+  let checked=0;
+  for(let i=0;i<total;i++){
+    let chk=document.getElementById(`${cpId}_chk_${i}`);
+    let row=document.getElementById(`${cpId}_row_${i}`);
+    if(chk&&row){
+      if(chk.checked){checked++;row.classList.add('checked');}
+      else row.classList.remove('checked');
+    }
+  }
+  let bar=document.getElementById(`${cpId}_bar`);
+  let pct=document.getElementById(`${cpId}_pct`);
+  if(bar) bar.style.width=Math.round(checked/total*100)+'%';
+  if(pct) pct.textContent=`${checked} / ${total}`;
+}
+
+function cpCheck(cpId, babIdx){
+  let data=CHECKPOINT_DATA[babIdx];
+  let total=data.items.length;
+  let checked=0;
+  for(let i=0;i<total;i++){
+    let chk=document.getElementById(`${cpId}_chk_${i}`);
+    if(chk&&chk.checked) checked++;
+  }
+  let fb=document.getElementById(`${cpId}_fb`);
+  if(!fb) return;
+  if(checked===total){
+    fb.className='cp-feedback ok show';
+    fb.innerHTML=`<div class="cp-fb-title">🎉 Selamat!</div>
+      Kamu telah memahami konsep utama pada bab ini. Kamu dapat melanjutkan ke bab berikutnya.<br><br>
+      <em style="font-size:.6rem;opacity:.8;">${data.ok}</em>`;
+  } else {
+    let sisa=total-checked;
+    fb.className='cp-feedback belum show';
+    fb.innerHTML=`<div class="cp-fb-title">📚 Ayo Belajar Lagi!</div>
+      Masih ada <b>${sisa} poin</b> yang perlu dipahami. Bacalah kembali bagian materi yang berkaitan sebelum melanjutkan ke bab berikutnya.<br><br>
+      <em style="font-size:.6rem;opacity:.8;">${data.belum}</em>`;
+  }
+  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
 function pauseAllVideos(){
   document.querySelectorAll('video').forEach(v=>{
     try{ if(!v.paused) v.pause(); }catch(e){}
@@ -1447,18 +1812,18 @@ function pauseAllVideos(){
 /* DRAG ZONE — pageIdx: index halaman yang ditampilkan di sisi ini */
 function makeDZ(side, w, h, pageIdx){
   // Jika halaman ini video: kembalikan div kosong tanpa pointer-events
-  if(pageIdx!==null && PAGES[pageIdx] && PAGES[pageIdx].type==='video'){
-    const empty=document.createElement('div');
+  if(pageIdx!==null && PAGES[pageIdx] && (PAGES[pageIdx].type==='video'||PAGES[pageIdx].type==='checkpoint')){
+    let empty=document.createElement('div');
     empty.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:0;';
     return empty;
   }
-  const dz=document.createElement('div');dz.className='drag-zone';dz.style.cssText=`width:${w}px;height:56px;bottom:0;left:0;position:absolute;z-index:50;`;
-  const peel=document.createElement('div');peel.className=`peel peel-${side==='right'?'r':'l'}`;dz.appendChild(peel);
-  const hint=document.createElement('span');hint.className=`dz-hint dz-hint-${side==='right'?'r':'l'}`;hint.textContent=side==='right'?'Berikutnya':'Sebelumnya';dz.appendChild(hint);
+  let dz=document.createElement('div');dz.className='drag-zone';dz.style.cssText=`width:${w}px;height:56px;bottom:0;left:0;position:absolute;z-index:50;`;
+  let peel=document.createElement('div');peel.className=`peel peel-${side==='right'?'r':'l'}`;dz.appendChild(peel);
+  let hint=document.createElement('span');hint.className=`dz-hint dz-hint-${side==='right'?'r':'l'}`;hint.textContent=side==='right'?'Berikutnya':'Sebelumnya';dz.appendChild(hint);
   let downX=null;
   dz.addEventListener('mousedown',e=>{downX=e.clientX;dragDX=0;e.preventDefault();});
   dz.addEventListener('mousemove',e=>{if(downX!==null) dragDX=e.clientX-downX;});
-  dz.addEventListener('mouseup',e=>{if(downX===null) return;const dx=e.clientX-downX;downX=null;if(Math.abs(dx)>=10){if(dx<0&&side==='right')tryFlip('fwd');if(dx>0&&side==='left')tryFlip('back');dragDX=0;return;}dragDX=0;if(side==='right')tryFlip('fwd');else tryFlip('back');});
+  dz.addEventListener('mouseup',e=>{if(downX===null) return;let dx=e.clientX-downX;downX=null;if(Math.abs(dx)>=10){if(dx<0&&side==='right')tryFlip('fwd');if(dx>0&&side==='left')tryFlip('back');dragDX=0;return;}dragDX=0;if(side==='right')tryFlip('fwd');else tryFlip('back');});
   return dz;
 }
 
@@ -1466,48 +1831,49 @@ function tryFlip(dir){
   if(flipping) return;
   if(dir==='fwd'&&curSpread>=TOTAL-1) return;
   if(dir==='back'&&curSpread<=0) return;
+  pzClose(); // tutup zoom overlay sebelum flip
   pauseAllVideos();
   doFlip(dir);
 }
 
 function doFlip(dir){
   flipping=true;
-  const nextSpread=dir==='fwd'?curSpread+1:curSpread-1;
+  let nextSpread=dir==='fwd'?curSpread+1:curSpread-1;
 
   // Track progress setelah flip
   const[nl,nr]=SPREADS[nextSpread];
-  const nextPageIdx=nr!==null?nr:(nl!==null?nl:0);
+  let nextPageIdx=nr!==null?nr:(nl!==null?nl:0);
   if(curSubBab>=0) trackProgress(curSubBab, nextPageIdx);
   const{w,h}=pageSize();
-  const from=curSpread;
-  const to=dir==='fwd'?curSpread+1:curSpread-1;
+  let from=curSpread;
+  let to=dir==='fwd'?curSpread+1:curSpread-1;
   const[cL,cR]=SPREADS[from];
   const[nL,nR]=SPREADS[to];
 
   // Buat flip card dengan animasi slide sederhana (ringan di iOS)
-  const card=document.createElement('div');
+  let card=document.createElement('div');
   card.className='flip-card';
   card.style.cssText=`width:${w}px;height:${h}px;`;
 
-  const front=document.createElement('div');front.className='fc-face fc-front';front.style.cssText=`width:${w}px;height:${h}px;`;
-  const back=document.createElement('div');back.className='fc-face fc-back';back.style.cssText=`width:${w}px;height:${h}px;`;
-  const curl=document.createElement('div');curl.className='fc-curl';
+  let front=document.createElement('div');front.className='fc-face fc-front';front.style.cssText=`width:${w}px;height:${h}px;`;
+  let back=document.createElement('div');back.className='fc-face fc-back';back.style.cssText=`width:${w}px;height:${h}px;`;
+  let curl=document.createElement('div');curl.className='fc-curl';
 
-  const dur=isIOS?180:parseInt(getComputedStyle(document.documentElement).getPropertyValue('--flip-dur'))*1000||450;
+  let dur=isIOS?180:parseInt(getComputedStyle(document.documentElement).getPropertyValue('--flip-dur'))*1000||450;
 
   if(dir==='fwd'){
-    const ff=makeFace(cR,w,h);ff.classList.add('vis');front.appendChild(ff);
-    const bf=makeFace(nL,w,h);bf.classList.add('vis');back.appendChild(bf);
+    let ff=makeFace(cR,w,h);ff.classList.add('vis');front.appendChild(ff);
+    let bf=makeFace(nL,w,h);bf.classList.add('vis');back.appendChild(bf);
     front.appendChild(curl);
-    const lo=(cL===null)?0:w+7;
+    let lo=(cL===null)?0:w+7;
     card.style.left=lo+'px';card.style.top='0';
     // Mulai dari posisi normal, slide ke kiri
     card.style.transform='translateX(0)';
     card.style.opacity='1';
     if(curRF) curRF.classList.remove('vis');
   } else {
-    const ff=makeFace(nR,w,h);ff.classList.add('vis');front.appendChild(ff);
-    const bf=makeFace(cL,w,h);bf.classList.add('vis');back.appendChild(bf);
+    let ff=makeFace(nR,w,h);ff.classList.add('vis');front.appendChild(ff);
+    let bf=makeFace(cL,w,h);bf.classList.add('vis');back.appendChild(bf);
     front.appendChild(curl);
     card.style.left='0';card.style.top='0';
     card.style.transform='translateX(0)';
@@ -1541,34 +1907,57 @@ function doFlip(dir){
 /* TOUCH */
 function setupTouchSwipe(){
   if(!bookWrapEl) return;
-  let tx=null,ty=null;
+  let tx=null,ty=null,tTime=0,lastTap=0;
+
   bookWrapEl.addEventListener('touchstart',e=>{
-    // jangan intercept jika sedang interaksi dengan video
-    if(e.target.closest('video')) return;
-    tx=e.touches[0].clientX;ty=e.touches[0].clientY;
+    if(e.target.closest('video')||e.target.closest('.cp-wrap')) return;
+    if(e.touches.length===1){
+      tx=e.touches[0].clientX;ty=e.touches[0].clientY;tTime=Date.now();
+    }
   },{passive:true});
+
   bookWrapEl.addEventListener('touchend',e=>{
     if(tx===null) return;
-    const dx=e.changedTouches[0].clientX-tx;const dy=e.changedTouches[0].clientY-ty;
+    let dx=e.changedTouches[0].clientX-tx;
+    let dy=e.changedTouches[0].clientY-ty;
+    let dt=Date.now()-tTime;
+    let face=e.target.closest('[data-pz-src]');
     tx=null;ty=null;
+
+    // Double tap → buka zoom
+    if(face && Math.abs(dx)<12 && Math.abs(dy)<12 && dt<300){
+      let now=Date.now();
+      if(now-lastTap<380){ pzOpen(face.getAttribute('data-pz-src')); lastTap=0; return; }
+      lastTap=now;
+      return; // tunggu kemungkinan double tap
+    }
+
+    // Swipe horizontal → flip halaman
     if(Math.abs(dx)<40||Math.abs(dx)<Math.abs(dy)) return;
     if(dx<0)tryFlip('fwd');else tryFlip('back');
   },{passive:true});
 
-  const skipTags=['input','label','button','video','select','textarea','source'];
-  function isVideoArea(e){
-    return e.target.closest('video')!==null ||
-           e.target.closest('[data-video-wrap]')!==null ||
+  let skipTags=['input','label','button','video','select','textarea','source'];
+  function isSpecialArea(e){
+    return e.target.closest('video')!==null||
+           e.target.closest('[data-video-wrap]')!==null||
+           e.target.closest('.cp-wrap')!==null||
            skipTags.includes(e.target.tagName.toLowerCase());
   }
+
+  // Klik di halaman img → zoom; di luar → flip
   if(leftSideEl) leftSideEl.addEventListener('click',e=>{
-    if(isVideoArea(e)) return;
+    if(isSpecialArea(e)) return;
     if(e.target.closest('.qwrap')) return;
+    let face=e.target.closest('[data-pz-src]');
+    if(face){ pzOpen(face.getAttribute('data-pz-src')); return; }
     tryFlip('back');
   });
   if(rightSideEl) rightSideEl.addEventListener('click',e=>{
-    if(isVideoArea(e)) return;
+    if(isSpecialArea(e)) return;
     if(e.target.closest('.qwrap')) return;
+    let face=e.target.closest('[data-pz-src]');
+    if(face){ pzOpen(face.getAttribute('data-pz-src')); return; }
     tryFlip('fwd');
   });
 }
@@ -1576,15 +1965,15 @@ document.addEventListener('keydown',e=>{if(activeView!=='flipbook') return;if(e.
 
 /* RENDER BOOK */
 function renderBook(){
-  const{w,h}=pageSize();const scene=document.getElementById('scene');scene.innerHTML='';
+  const{w,h}=pageSize();let scene=document.getElementById('scene');scene.innerHTML='';
 
   /* bookContainer: hanya ini yang di-scale (buku + tombol nav) */
-  const bookContainer=document.createElement('div');
+  let bookContainer=document.createElement('div');
   bookContainer.id='bookContainer';
   bookContainer.style.cssText=`position:relative;display:inline-flex;align-items:center;justify-content:center;`;
 
   bookWrapEl=document.createElement('div');bookWrapEl.className='book-wrap';
-  const[li,ri]=SPREADS[curSpread];const isCover=li===null;const isSingleL=ri===null;
+  const[li,ri]=SPREADS[curSpread];let isCover=li===null;let isSingleL=ri===null;
   if(isCover){
     rightSideEl=document.createElement('div');rightSideEl.className='bside bside-right';rightSideEl.style.cssText=`width:${w}px;height:${h}px;border-radius:3px;box-shadow:8px 0 30px rgba(0,0,0,.3),-2px 0 8px rgba(0,0,0,.1);`;
     curRF=makeFace(ri,w,h);curRF.classList.add('vis');rightSideEl.appendChild(curRF);rightSideEl.appendChild(makeDZ('right',w,h,ri));leftSideEl=null;curLF=null;bookWrapEl.appendChild(rightSideEl);
@@ -1593,7 +1982,7 @@ function renderBook(){
     curLF=makeFace(li,w,h);curLF.classList.add('vis');leftSideEl.appendChild(curLF);leftSideEl.appendChild(makeDZ('left',w,h,li));rightSideEl=null;curRF=null;bookWrapEl.appendChild(leftSideEl);
   } else {
     leftSideEl=document.createElement('div');leftSideEl.className='bside bside-left';leftSideEl.style.cssText=`width:${w}px;height:${h}px;`;
-    const spEl=document.createElement('div');spEl.className='spine';spEl.style.height=h+'px';
+    let spEl=document.createElement('div');spEl.className='spine';spEl.style.height=h+'px';
     rightSideEl=document.createElement('div');rightSideEl.className='bside bside-right';rightSideEl.style.cssText=`width:${w}px;height:${h}px;`;
     curLF=makeFace(li,w,h);curLF.classList.add('vis');curRF=makeFace(ri,w,h);curRF.classList.add('vis');
     leftSideEl.appendChild(curLF);leftSideEl.appendChild(makeDZ('left',w,h,li));rightSideEl.appendChild(curRF);rightSideEl.appendChild(makeDZ('right',w,h,ri));
@@ -1616,13 +2005,13 @@ function renderBook(){
 /* UI */
 function refreshArrows(){if(!prevBtn||!nextBtn) return;prevBtn.disabled=curSpread===0;nextBtn.disabled=curSpread>=TOTAL-1;}
 function refreshLabel(){
-  const el=document.getElementById('pageLabel');const ch=document.getElementById('chapterLabel');
+  let el=document.getElementById('pageLabel');let ch=document.getElementById('chapterLabel');
   if(el) el.textContent=curSpread===0?'Cover':`Halaman ${curSpread} / ${TOTAL-1}`;
   if(ch) ch.textContent=`Sub Bab ${curSubBab+1}`;
 }
 function buildDots(){
-  const row=document.getElementById('dotsRow');row.innerHTML='';
-  for(let s=0;s<TOTAL;s++){const d=document.createElement('div');d.className='dot'+(s===curSpread?' on':'');d.title=`Halaman ${s+1}`;const _s=s;d.addEventListener('click',()=>{if(flipping||_s===curSpread) return;curSpread=_s;renderBook();});row.appendChild(d);}
+  let row=document.getElementById('dotsRow');row.innerHTML='';
+  for(let s=0;s<TOTAL;s++){let d=document.createElement('div');d.className='dot'+(s===curSpread?' on':'');d.title=`Halaman ${s+1}`;let _s=s;d.addEventListener('click',()=>{if(flipping||_s===curSpread) return;curSpread=_s;renderBook();});row.appendChild(d);}
 }
 
 /* TOAST */
@@ -1644,7 +2033,7 @@ function closeCara(e){
 window.addEventListener('resize',()=>{
   if(activeView==='flipbook'&&!flipping){
     // Auto update single/double saat resize (kecuali user sudah toggle manual)
-    const autoSingle = window.innerWidth <= 640;
+    let autoSingle = window.innerWidth <= 640;
     if(autoSingle !== singlePage){
       singlePage = autoSingle;
       SPREADS=buildSpreads(PAGES, singlePage);
@@ -1682,8 +2071,8 @@ document.addEventListener('keydown',e=>{
   },{passive:true});
   document.addEventListener('touchmove',e=>{
     if(activeView!=='flipbook'||!initDist||e.touches.length!==2) return;
-    const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-    const ratio=dist/initDist;
+    let dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    let ratio=dist/initDist;
     zoomLevel=Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,Math.round(initZoom*ratio*10)/10));
     applyZoom(); // hanya book-wrap yang discale, dots & footer tidak terpengaruh
   },{passive:true});
